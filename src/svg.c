@@ -1,5 +1,5 @@
 #include "svg.h"
-#include "retangulo.h"
+#include "quadra.h"
 #include "texto.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@ void inicializarSVG(arquivo saida){
     fprintf(saida, "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
 }
 
-void inserirRetanguloSVG(arquivo saida, retangulo r){
+void inserirQuadraSVG(arquivo saida, quadra q){
     fprintf(saida, "<rect id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" height=\"%lf\" width=\"%lf\" y=\"%lf\" x=\"%lf\" />\n", getIdRetangulo(r), getCorPRetangulo(r), getCorBRetangulo(r), getHRetangulo(r), getWRetangulo(r), getYRetangulo(r), getXRetangulo(r));
 }
 

@@ -10,12 +10,12 @@ typedef void* pessoa;
 /// @param sexo Sexo da pessoa
 /// @param nascimento Data de nascimento da pessoa
 /// @return Pessoa criada com os atributos especificados
-pessoa criarPessoa(char cpf, char* nome, char* sobrenome, char sexo, char* nascimento);
+pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento);
 
 /// @brief Pega o CPF da pessoa
 /// @param p Ponteiro para a pessoa
 /// @return O CPF da pessoa
-char getCpfPessoa(pessoa p);
+char* getCpfPessoa(pessoa p);
 
 /// @brief Pega o nome da pessoa 
 /// @param p Ponteiro para a pessoa
@@ -50,7 +50,7 @@ char getFacePessoa(pessoa p);
 /// @brief Pega o número da residência da pessoa
 /// @param p Ponteiro para pessoa
 /// @return O número da residência da pessoa
-char getNumeroPessoa(pessoa p);
+int getNumeroPessoa(pessoa p);
 
 /// @brief Pega o complemento da residência da pessoa
 /// @param p Ponteiro para pessoa

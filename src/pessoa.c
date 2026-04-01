@@ -8,7 +8,7 @@ typedef struct{
     char *cep, *complemento, face, numero;
 } Pessoa;
 
-pessoa criarPessoa(char cpf, char* nome, char* sobrenome, char sexo, char* nascimento){
+pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento){
     Pessoa* p = (Pessoa*) malloc(sizeof(Pessoa));
 
     if (!p){
@@ -44,7 +44,7 @@ pessoa criarPessoa(char cpf, char* nome, char* sobrenome, char sexo, char* nasci
     return p;
 }
 
-int getCpfPessoa(pessoa p){
+char* getCpfPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
     return pes->cpf;
 }
