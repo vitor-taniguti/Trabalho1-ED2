@@ -1,6 +1,10 @@
 #ifndef PESSOA_H
 #define PESSOA_H
 
+/*
+Módulo responsável na manipulação do objeto pessoa, contendo as funções de get e set referentes.
+*/
+
 typedef void* pessoa;
 
 /// @brief Cria uma pessoa com os atributos 
@@ -50,7 +54,7 @@ char getFacePessoa(pessoa p);
 /// @brief Pega o número da residência da pessoa
 /// @param p Ponteiro para pessoa
 /// @return O número da residência da pessoa
-int getNumeroPessoa(pessoa p);
+double getNumeroPessoa(pessoa p);
 
 /// @brief Pega o complemento da residência da pessoa
 /// @param p Ponteiro para pessoa
@@ -69,12 +73,12 @@ void setFacePessoa(pessoa p, char face);
 
 /// @brief Define o número da residência da pessoa
 /// @param p Ponteiro para a pessoa
-/// @param face O número da residência da pessoa
-void setNumeroPessoa(pessoa p, char numero);
+/// @param numero Número da residência da pessoa
+void setNumeroPessoa(pessoa p, double numero);
 
 /// @brief Define o complemento da residência da pessoa
 /// @param p Ponteiro para a pessoa
-/// @param face O complemento da residência da pessoa
+/// @param complemento O complemento da residência da pessoa
 void setComplementoPessoa(pessoa p, char* complemento);
 
 #endif

@@ -2,9 +2,11 @@
 #define QUADRA_H
 
 /*
-Módulo responsável na manipulação do objeto quadra, tendo as funções get e set
+Módulo responsável na manipulação do objeto quadra, tendo as funções get e set.
 */
 
+typedef void* endereco;
+typedef void* face;
 typedef void* quadra;
 
 /// @brief Cria uma quadra

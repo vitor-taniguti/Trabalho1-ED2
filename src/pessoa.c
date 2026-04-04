@@ -4,8 +4,9 @@
 #include <string.h>
 
 typedef struct{
-    char *cpf, *nome, *sobrenome, sexo, *nascimento;
-    char *cep, *complemento, face, numero;
+    char cpf[15], nome[50], sobrenome[50], sexo, nascimento[11];
+    char cep[10], complemento[10], face;
+    double numero;
 } Pessoa;
 
 pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento){
@@ -16,30 +17,19 @@ pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc
         return NULL;
     }
 
-    p->cpf = cpf;
+    strncpy(p->cpf, cpf, 14);
+    p->cpf[14] = '\0';
 
-    p->nome = (char*) malloc(strlen(nome)+1);
-    if (!p->nome){
-        printf("Falha na alocação de memória no nome da pessoa!\n");
-        return NULL;
-    }
-    strcpy(p->nome, nome);
+    strncpy(p->nome, nome, 49);
+    p->nome[49] = '\0';
 
-    p->sobrenome = (char*) malloc(strlen(sobrenome)+1);
-    if (!p->sobrenome){
-        printf("Falha na alocação de memória no sobrenome da pessoa!\n");
-        return NULL;
-    }
-    strcpy(p->sobrenome, sobrenome);
+    strncpy(p->sobrenome, sobrenome, 49);
+    p->sobrenome[49] = '\0';
 
     p->sexo = sexo;
 
-    p->nascimento = (char*) malloc(strlen(nascimento)+1);
-    if (!p->nome){
-        printf("Falha na alocação de memória na data de nascimento da pessoa!\n");
-        return NULL;
-    }
-    strcpy(p->nascimento, nascimento);
+    strncpy(p->nascimento, nascimento, 10);
+    p->nascimento[10] = '\0';
 
     return p;
 }
@@ -61,7 +51,7 @@ char* getSobrenomePessoa(pessoa p){
 
 char getSexoPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
-    return pes->cpf;
+    return pes->sexo;
 }
 
 char* getNascimentoPessoa(pessoa p){
@@ -79,7 +69,7 @@ char getFacePessoa(pessoa p){
     return pes->face;
 }
 
-int getNumeroPessoa(pessoa p){
+double getNumeroPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
     return pes->numero;
 }
@@ -92,26 +82,17 @@ char* getComplementoPessoa(pessoa p){
 void setCepPessoa(pessoa p, char* cep){
     Pessoa* pes = (Pessoa*) p;
     
-    pes->cep = (char*) malloc(strlen(cep)+1);
-    if (!pes->cep){
-        printf("Falha na alocação de memória no CEP da pessoa!\n");
-        return;
-    }
-    strcpy(pes->cep, cep);
+    strncpy(pes->cep, cep, 9);
+    pes->cep[9] = '\0';
 }
 
 void setFacePessoa(pessoa p, char face){
     Pessoa* pes = (Pessoa*) p;
     
-    pes->face = (char*) malloc(strlen(face)+1);
-    if (!pes->face){
-        printf("Falha na alocação de memória no CEP da pessoa!\n");
-        return;
-    }
-    strcpy(pes->face, face);
+    pes->face = face;
 }
 
-void setNumeroPessoa(pessoa p, int numero){
+void setNumeroPessoa(pessoa p, double numero){
     Pessoa* pes = (Pessoa*) p;
     
     pes->numero = numero;
@@ -120,10 +101,6 @@ void setNumeroPessoa(pessoa p, int numero){
 void setComplementoPessoa(pessoa p, char* complemento){
     Pessoa* pes = (Pessoa*) p;
     
-    pes->complemento = (char*) malloc(strlen(complemento)+1);
-    if (!pes->complemento){
-        printf("Falha na alocação de memória no CEP da pessoa!\n");
-        return;
-    }
-    strcpy(pes->complemento, complemento);
+    strncpy(pes->complemento, complemento, 9);
+    pes->complemento[9] = '\0';
 }
