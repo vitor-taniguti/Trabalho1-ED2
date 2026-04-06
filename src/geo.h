@@ -2,12 +2,8 @@
 #define GEO_H
 
 #include <stdio.h>
-#include "texto.h"
-
-/*
-Módulo responsável por ler o arquivo de entrada .geo criar e inserir as formas na fila do chão.
-A fila chão pode mudar conforme o programa é compilado
-*/
+#include "hashfile.h"
+#include "quadra.h"
 
 typedef FILE* arquivo;
 typedef void* fila;
@@ -19,8 +15,8 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo);
 
 /// @brief Lê e processa as linhas de um arquivop de entrada
 /// @param geo Ponteiro para o arquivo de entrada
-/// @param f Fila que as formas serão inseridas
-/// @param tt Tipo do texto que será modificado
-void lerArquivoGeo(arquivo geo, tabela t, tipoTexto tt);
+/// @param quadras Hashfile onde as quadras serão inseridas
+/// @param tq Tipo das quadras (espessua, cor de preenchimento e de borda)
+void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq);
 
 #endif

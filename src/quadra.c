@@ -4,7 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define maximo_enderecos_quadra 10
+#define maximo_enderecos_quadra 50
+
+typedef struct{
+    char corP[20], corB[20], espessura[10];
+} TipoQuadra;
 
 typedef struct{
     double numero;
@@ -18,26 +22,27 @@ typedef struct{
 } Face;
 
 typedef struct{
-    char cep[10], corP[10], corB[10], espessura[10];
+    char cep[20];
     double x, y, w, h;
-    Face N, S, L, O;
+    Face faces[4];
 } Quadra;
+
+
 
 quadra criarQuadra(char* cep, double x, double y, double w, double h){
     Quadra* q = (Quadra*) malloc(sizeof(Quadra));
 
-    strncpy(q->cep, cep, 9);
-    q->cep[9] = '\0';
+    strncpy(q->cep, cep, 19);
+    q->cep[19] = '\0';
 
     q->x = x;
     q->y = y;
     q->w = w;
     q->h = h;
 
-    q->N.quantidadeEnderecos = 0;
-    q->S.quantidadeEnderecos = 0;
-    q->L.quantidadeEnderecos = 0;
-    q->O.quantidadeEnderecos = 0;
+    for (int i = 0; i < 4; i++){
+        q->faces[i].quantidadeEnderecos = 0;
+    }
 
     return q;
 }
@@ -62,38 +67,44 @@ double getHQuadra(quadra q){
     return qua->h;
 }
 
-char* getEspessuraQuadra(quadra q){
-    Quadra* qua = (Quadra*) q;
+char* getEspessuraTipoQuadra(tipoQuadra tq){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     return qua->espessura;
 }
 
-char* getCorBQuadra(quadra q){
-    Quadra* qua = (Quadra*) q;
+char* getCorBTipoQuadra(tipoQuadra tq){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     return qua->corB;
 }   
 
-char* getCorPQuadra(quadra q){
-    Quadra* qua = (Quadra*) q;
+char* getCorPTipoQuadra(tipoQuadra tq){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     return qua->corP;
 }
 
-void setEspessuraQuadra(quadra q, char* sw){
-    Quadra* qua = (Quadra*) q;
+void setEspessuraTipoQuadra(tipoQuadra tq, char* sw){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     
     strncpy(qua->espessura, sw, 9);
     qua->espessura[9] = '\0'; 
 }
 
-void setCorBQuadra(quadra q, char* cstrk){
-    Quadra* qua = (Quadra*) q;
+void setCorBTipoQuadra(tipoQuadra tq, char* cstrk){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     
     strncpy(qua->corB, cstrk, 9);
     qua->corB[9] = '\0';
 }
 
-void setCorPQuadra(quadra q, char* cfill){
-    Quadra* qua = (Quadra*) q;
+void setCorPTipoQuadra(tipoQuadra tq, char* cfill){
+    TipoQuadra* qua = (TipoQuadra*) tq;
     
     strncpy(qua->corP, cfill, 9);
     qua->corP[9] = '\0'; 
+}
+
+void liberarTipoQuadra(tipoQuadra tq){
+    TipoQuadra* qua = (TipoQuadra*) tq;
+
+    free(qua);
 }

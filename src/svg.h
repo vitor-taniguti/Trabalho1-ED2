@@ -25,8 +25,8 @@ void inicializarSVG(arquivo saida);
 
 /// @brief Adiciona a tag rect do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
-/// @param r Forma do retângulo
-void inserirRetanguloSVG(arquivo saida, retangulo r);
+/// @param q Ponteiro para a quadra 
+void inserirRetanguloSVG(arquivo saida, quadra q);
 
 /// @brief Adiciona a tag text do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

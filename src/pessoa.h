@@ -7,7 +7,7 @@ Módulo responsável na manipulação do objeto pessoa, contendo as funções de
 
 typedef void* pessoa;
 
-/// @brief Cria uma pessoa com os atributos 
+/// @brief Cria uma pessoa com os atributos especificados
 /// @param cpf Identificador único de pessoa
 /// @param nome Nome da pessoa
 /// @param sobrenome Sobrenome da pessoa
@@ -80,5 +80,9 @@ void setNumeroPessoa(pessoa p, double numero);
 /// @param p Ponteiro para a pessoa
 /// @param complemento O complemento da residência da pessoa
 void setComplementoPessoa(pessoa p, char* complemento);
+
+/// @brief Libera a memória alocada para a pessoa
+/// @param p Ponteiro para a pessoa
+void liberarPessoa(pessoa p);
 
 #endif

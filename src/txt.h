@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "retangulo.h"
+#include "quadra.h"
 #include "texto.h"
 
 /*
@@ -12,10 +12,9 @@ Os comentários feitos estão no padrão que o trabalho solicitou.
 */
 
 typedef FILE* arquivo;
-typedef void* Forma;
 
 /// @brief Abre um arquivo de texto para gravação
-/// @param txt Ponteiri duplo para o endereço do arquivo
+/// @param txt Ponteiro duplo para o endereço do arquivo
 /// @param caminhoTxt Ponteiro para o caminho onde será salvo o arquivo de texto
 void abrirArquivoTxt(arquivo *txt, char *caminhoTxt);
 

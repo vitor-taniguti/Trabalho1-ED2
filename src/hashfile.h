@@ -1,0 +1,34 @@
+#ifndef HASHFILE_H
+#define HASHFILE_H
+
+#include <stdio.h>
+
+typedef void* hash;
+typedef void* elemento;
+typedef FILE* arquivo;
+
+/// @brief Cria um hashfile extensível (dinâmico)
+/// @param nomeArquivo Nome do arquivo do hashfile
+/// @return O hashfile criado
+hash criarHash(char* nomeArquivo);
+
+/// @brief Inserir o elemento do hashfile (habitante ou quadra)
+/// @param h Hashfile onde o elemento será inserido
+/// @param e Elemento que será inserido
+/// @param chave Chave responsável pelo espalhamento da função hash (cpf para habitantes, cep para quadras)
+void inserirHash(hash h, elemento e, char* chave);
+
+/// @brief Busca o elemento do hashfile (habitante ou quadra)
+/// @param h Hashfile onde o elemento será buscado
+/// @param e Elemento que será buscado
+/// @param chave Chave responsável por facilitar a busca 
+/// @return O elemento buscado ou NULL se não for encontrado
+elemento buscarHash(hash h, elemento e, char* chave);
+
+/// @brief Remove o elemento do hashfile (habitante ou quadra)
+/// @param h Hashfile onde o elemento será removido
+/// @param e Elemento que será removido
+/// @param chave Chave responsável por buscar o elemento que será removido
+void removerHash(hash h, elemento e, char* chave);
+
+#endif

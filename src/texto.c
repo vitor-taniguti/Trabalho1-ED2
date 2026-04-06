@@ -10,11 +10,11 @@ typedef struct TipoTexto{
     char *fSize;
 } TipoTexto;
 
-typedef struct txt{
+typedef struct{
     int i;
     double xt, yt, x1, x2;
     char *corb, *corp, a, *txto;
-} txt;
+} Texto;
 
 tipoTexto criarTipoTexto(char *family, char *weight, char *size){
     TipoTexto *tipo = (TipoTexto*) malloc(sizeof(TipoTexto));
@@ -49,7 +49,7 @@ tipoTexto criarTipoTexto(char *family, char *weight, char *size){
 }
 
 texto criarTexto(int i, double x, double y, char *corb, char *corp, char a, char *txto){
-    txt *t = malloc(sizeof(txt));
+    Texto *t = malloc(sizeof(Texto));
     if (t == NULL){
         printf("Erro na alocação de memória da linha!");
     exit(1);
@@ -76,43 +76,43 @@ texto criarTexto(int i, double x, double y, char *corb, char *corp, char a, char
         exit(1);
     }
     strcpy(t->txto, txto);
-    return ((txt*)t);
+    return ((Texto*)t);
 }
 
 int getIdTexto(texto t){
-    return ((txt*)t)->i;
+    return ((Texto*)t)->i;
 }
 
 double getXtTexto(texto t){
-    return ((txt*)t)->xt;
+    return ((Texto*)t)->xt;
 }
 
 double getYtTexto(texto t){
-    return ((txt*)t)->yt;
+    return ((Texto*)t)->yt;
 }
 
 double getX1Texto(texto t){
-    return ((txt*)t)->x1;
+    return ((Texto*)t)->x1;
 }
 
 double getX2Texto(texto t){
-    return ((txt*)t)->x2;
+    return ((Texto*)t)->x2;
 }
 
 char* getCorBTexto(texto t){
-    return ((txt*)t)->corb;
+    return ((Texto*)t)->corb;
 }
 
 char* getCorPTexto(texto t){
-    return ((txt*)t)->corp;
+    return ((Texto*)t)->corp;
 }
 
 char getATexto(texto t){
-    return ((txt*)t)->a;
+    return ((Texto*)t)->a;
 }
 
 char* getTxtoTexto(texto t){
-    return ((txt*)t)->txto;
+    return ((Texto*)t)->txto;
 }
 
 char* getFamily(tipoTexto tt){
@@ -128,12 +128,12 @@ char* getSize(tipoTexto tt){
 }
 
 double calcAreaTexto(texto t){
-    txt *text = ((txt*)t);
+    Texto *text = ((Texto*)t);
     return 20*strlen(text->txto);
 }
 
 void setX1X2Texto(texto t, char a){
-    txt *texto = (txt*)t;
+    Texto *texto = (Texto*)t;
     switch(a){
         case 'i':
             texto->x1 = texto->xt;
@@ -150,19 +150,19 @@ void setX1X2Texto(texto t, char a){
 }
 
 void setIdTexto(texto t, int id){
-    ((txt*)t)->i = id;
+    ((Texto*)t)->i = id;
 }
 
 void setXtTexto(texto t, double x){
-    ((txt*)t)->xt = x;
+    ((Texto*)t)->xt = x;
 }
 
 void setYtTexto(texto t, double y){
-    ((txt*)t)->yt = y;
+    ((Texto*)t)->yt = y;
 }
 
 void setCorBTexto(texto t, char *corb){
-    txt *tt = (txt*)t;
+    Texto *tt = (Texto*)t;
     tt->corb = realloc(tt->corb, strlen(corb)+1);
     if(tt->corb == NULL){
         printf("Erro na realocação da memória para cor de borda!");
@@ -172,7 +172,7 @@ void setCorBTexto(texto t, char *corb){
 }
 
 void setCorPTexto(texto t, char *corp){
-    txt *tt = (txt*)t;
+    Texto *tt = (Texto*)t;
     tt->corp = realloc(tt->corp, strlen(corp)+1);
     if(tt->corp == NULL){
         printf("Erro na realocação da memória para cor de preenchimento!");
@@ -182,11 +182,11 @@ void setCorPTexto(texto t, char *corp){
 }
 
 void setATexto(texto t, char a){
-    ((txt*)t)->a = a;
+    ((Texto*)t)->a = a;
 }
 
 void setTxtoTexto(texto t, char *txto){
-    txt *tt = (txt*)t;
+    Texto *tt = (Texto*)t;
     tt->txto = realloc(tt->txto, strlen(txto)+1);
     if(tt->txto == NULL){
         printf("Erro na realocação da memória para o conteúdo do texto!");
@@ -235,7 +235,7 @@ void liberarTipoTexto(tipoTexto t){
 
 void liberarTexto(texto t){
     if (t == NULL) return;
-    txt *tt = (txt*)t;
+    Texto *tt = (Texto*)t;
     free(tt->corb);
     free(tt->corp);
     free(tt->txto);

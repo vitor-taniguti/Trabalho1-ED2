@@ -3,11 +3,15 @@
 
 /*
 Módulo responsável na manipulação do objeto quadra, tendo as funções get e set.
+Uma quadra é um retângulo, então, possui 4 lados: norte, sul, leste e oeste. 
+Cada lado, possui contruções com seus respectivos números e complementos.
+O identificador único do retângulo é uma string chamado "cep" 
 */
 
 typedef void* endereco;
 typedef void* face;
 typedef void* quadra;
+typedef void* tipoQuadra;
 
 /// @brief Cria uma quadra
 /// @param cep Identificador único da quadra
@@ -67,5 +71,9 @@ void setCorBQuadra(quadra q, char* cstrk);
 /// @param q Ponteiro para a quadra
 /// @param cfill A cor de preenchimento da quadra 
 void setCorPQuadra(quadra q, char* cfill);
+
+/// @brief Libera a memória alocada para a quadra
+/// @param q Ponteiro para a quadra
+void liberarQuadra(quadra q);
 
 #endif
