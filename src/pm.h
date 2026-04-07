@@ -1,6 +1,7 @@
 #ifndef PM_H
 #define PM_H
 
+#include "hashfile.h"
 #include <stdio.h>
 
 typedef FILE* arquivo;
@@ -13,6 +14,6 @@ void abrirArquivoPm(arquivo* saida, char* caminhoPm);
 /// @brief Lê o arquivo com extensão .pm e insere os objetos no arquivo correspondente
 /// @param geo Arquivo que será lido
 /// @param tabelaPm Arquivo da tabela hash reponsável para guardar os objetos lidos
-void lerArquivoPm(arquivo pm, arquivo* tabelaPm);
+void lerArquivoPm(arquivo pm, hash habitantes);
 
 #endif

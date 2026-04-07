@@ -20,10 +20,9 @@ void inserirHash(hash h, elemento e, char* chave);
 
 /// @brief Busca o elemento do hashfile (habitante ou quadra)
 /// @param h Hashfile onde o elemento será buscado
-/// @param e Elemento que será buscado
 /// @param chave Chave responsável por facilitar a busca 
 /// @return O elemento buscado ou NULL se não for encontrado
-elemento buscarHash(hash h, elemento e, char* chave);
+elemento buscarHash(hash h, char* chave);
 
 /// @brief Remove o elemento do hashfile (habitante ou quadra)
 /// @param h Hashfile onde o elemento será removido

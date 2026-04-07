@@ -54,12 +54,17 @@ char getFacePessoa(pessoa p);
 /// @brief Pega o número da residência da pessoa
 /// @param p Ponteiro para pessoa
 /// @return O número da residência da pessoa
-double getNumeroPessoa(pessoa p);
+int getNumeroPessoa(pessoa p);
 
 /// @brief Pega o complemento da residência da pessoa
 /// @param p Ponteiro para pessoa
 /// @return O complemento da residência da pessoa
 char* getComplementoPessoa(pessoa p);
+
+/// @brief Pega a situação de moradia da pessoa
+/// @param p Ponteiro para a pessoa
+/// @return A situação de moradia da pessoa (0 - sem teto, 1 - morador)
+int getMoradorPessoa(pessoa p);
 
 /// @brief Define a CEP da pessoa
 /// @param p Ponteiro para a pessoa
@@ -74,7 +79,7 @@ void setFacePessoa(pessoa p, char face);
 /// @brief Define o número da residência da pessoa
 /// @param p Ponteiro para a pessoa
 /// @param numero Número da residência da pessoa
-void setNumeroPessoa(pessoa p, double numero);
+void setNumeroPessoa(pessoa p, int numero);
 
 /// @brief Define o complemento da residência da pessoa
 /// @param p Ponteiro para a pessoa

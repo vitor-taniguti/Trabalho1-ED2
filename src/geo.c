@@ -3,13 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define max_cor 8
-#define max_texto 1024
-
 void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     *geo = fopen(caminhoGeo, "r");
     if(*geo == NULL){
-        printf("Erro na abertura do arquivo!\n");
+        printf("Erro na abertura do arquivo geo!\n");
         exit(1);
     }
 }
@@ -32,18 +29,21 @@ void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq){
 void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq){
     if (geo == NULL){
         printf("O arquivo geo não foi aberto!\n");
-        return;
+        exit(1);
     }
 
     char linha[256], comando[3];
 
     while (fgets(linha, sizeof(linha), geo)){
         int i = 0;
+
         while (linha[i] != ' ' && linha[i] != '\n' && linha[i] != '\0'){
             comando[i] = linha[i];
             i++;
         }
+
         comando[i] = '\0';
+
         processarLinha(linha, comando, quadras, tq);
     }
 }

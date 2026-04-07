@@ -6,7 +6,7 @@
 typedef struct{
     char cpf[15], nome[50], sobrenome[50], sexo, nascimento[11];
     char cep[10], complemento[10], face;
-    double numero;
+    int numero, morador;
 } Pessoa;
 
 pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento){
@@ -69,7 +69,7 @@ char getFacePessoa(pessoa p){
     return pes->face;
 }
 
-double getNumeroPessoa(pessoa p){
+int getNumeroPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
     return pes->numero;
 }
@@ -77,6 +77,11 @@ double getNumeroPessoa(pessoa p){
 char* getComplementoPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
     return pes->complemento;
+}
+
+int getMoradorPessoa(pessoa p){
+    Pessoa* pes = (Pessoa*) p;
+    return pes->morador;
 }
 
 void setCepPessoa(pessoa p, char* cep){
@@ -92,7 +97,7 @@ void setFacePessoa(pessoa p, char face){
     pes->face = face;
 }
 
-void setNumeroPessoa(pessoa p, double numero){
+void setNumeroPessoa(pessoa p, int numero){
     Pessoa* pes = (Pessoa*) p;
     
     pes->numero = numero;
@@ -103,4 +108,9 @@ void setComplementoPessoa(pessoa p, char* complemento){
     
     strncpy(pes->complemento, complemento, 9);
     pes->complemento[9] = '\0';
+}
+
+void setMoradorPessoa(pessoa p, int morador){
+    Pessoa* pes = (Pessoa*) p;
+    pes->morador = morador;
 }
