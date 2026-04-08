@@ -70,38 +70,20 @@ char* getCpfEndereco(endereco e, int indice);
 /// @return A quantidade d emoradores no endereço especificado
 int getQuantidadeMoradoresEndereco(endereco e);
 
-/// @brief Pega a espessura da borda da quadra
-/// @param q Ponteiro para quadra
-/// @return A espessua da borda da quadra
-char* getEspessuraQuadra(quadra q);
-
-/// @brief Pega a cor de borda da quadra
-/// @param q Ponteiro para a quadra
-/// @return A cor de borda da quadra
-char* getCorBQuadra(quadra q);
-
-/// @brief Pega a cor de preenchimento da quadra
-/// @param q Ponteiro para a quadra
-/// @return A cor de preenchimento da quadra
-char* getCorPQuadra(quadra q);
-
-/// @brief Define a espessura da borda da quadra
-/// @param q Ponteiro para quadra
-/// @param sw A espessura da borda da quadra
-void setEspessuraQuadra(quadra q, char* sw);
-
-/// @brief Define a cor de borda da quadra
-/// @param q Ponteiro para a quadra 
-/// @param cstrk A cor de borda da borda
-void setCorBQuadra(quadra q, char* cstrk);
-
-/// @brief Define a cor de preenchimento da quadra
-/// @param q Ponteiro para a quadra
-/// @param cfill A cor de preenchimento da quadra 
-void setCorPQuadra(quadra q, char* cfill);
-
-/// @brief Libera a memória alocada para a quadra
-/// @param q Ponteiro para a quadra
 void liberarQuadra(quadra q);
+
+char* getEspessuraTipoQuadra(tipoQuadra tq);
+
+char* getCorBTipoQuadra(tipoQuadra tq);
+
+char* getCorPTipoQuadra(tipoQuadra tq);
+
+void setEspessuraTipoQuadra(tipoQuadra tq, char* sw);
+
+void setCorBTipoQuadra(tipoQuadra tq, char* cstrk);
+
+void setCorPTipoQuadra(tipoQuadra tq, char* cfill);
+
+void liberarTipoQuadra(tipoQuadra tq);
 
 #endif

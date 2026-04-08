@@ -74,6 +74,10 @@ void pq(char* cep, hash habitantes, hash quadras, arquivo svg){
     inserirTextoSVG(svg, stringFaces[3], x+w, y+(h/2), 'i');
 }
 
+void censo(hash habitantes, arquivo txt){
+    
+}
+
 void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, arquivo txt, arquivo svg){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
     char cep[10] = {0}, complemento[10] = {0}, lado = ' ', tipo[2] = {0};
@@ -81,11 +85,12 @@ void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, a
     
     if (strcmp(comando, "rq") == 0){
         sscanf(linha, "%2s %9s", tipo, cep);
-        rq(cep, habitantes, quadras, txt);
+        rq(cep, habitantes, quadras, txt, svg);
     } else if (strcmp(comando, "pq") == 0){
-
+        sscanf(linha, "%2s %9s", tipo, cep);
+        pq(cep, habitantes, quadras, svg);
     } else if (strcmp(comando, "censo") == 0){
-
+        censo(txt);
     } else if (strcmp(comando, "h?") == 0){
 
     } else if (strcmp(comando, "nasc") == 0){

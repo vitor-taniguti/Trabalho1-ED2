@@ -11,7 +11,7 @@ void abrirArquivoPm(arquivo *pm, char *caminhoPm){
     }
 }
 
-void processarLinha(char* linha, char* comando, hash habitantes){
+void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
     char cep[10] = {0}, complemento[10] = {0}, face = ' ', tipo[2] = {0};
     int numero = 0;
@@ -29,7 +29,7 @@ void processarLinha(char* linha, char* comando, hash habitantes){
     } else printf("Comando do pm inválido!\n");
 }
 
-void lerArquivoPm(arquivo pm, hash habitantes){
+void lerArquivoPm(arquivo pm, hash habitantes, estatistica e){
     if (pm == NULL){
         printf("O arquivo pm não foi aberto!\n");
         exit(1);
@@ -47,6 +47,6 @@ void lerArquivoPm(arquivo pm, hash habitantes){
 
         comando[i] = '\0';
 
-        processarLinha(linha, comando, habitantes);
+        processarLinha(linha, comando, habitantes, e);
     }
 }

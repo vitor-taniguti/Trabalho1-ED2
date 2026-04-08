@@ -1,4 +1,5 @@
 #include "geo.h"
+#include "svg.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +12,7 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     }
 }
 
-void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq){
+void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq, arquivo svg){
     char espessura[10] = {0}, corP[20] = {0}, corB[20] = {0}, tipo[3] = {0}, cep[20];
     double x = 0, y = 0, w = 0, h = 0;
     
@@ -23,10 +24,11 @@ void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq){
     } else if (strcmp(comando, "q") == 0){
         sscanf("%2s %s %lf %lf %lf %lf", tipo, cep, &x, &y, &w, &h);
         inserirHash(quadras, criarQuadra(cep, x, y, w, h), cep);
+        inserirRetanguloSVG(svg, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
     } else printf("Comando do geo inválido!\n");
 }
 
-void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq){
+void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq, arquivo svg){
     if (geo == NULL){
         printf("O arquivo geo não foi aberto!\n");
         exit(1);
@@ -44,6 +46,6 @@ void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq){
 
         comando[i] = '\0';
 
-        processarLinha(linha, comando, quadras, tq);
+        processarLinha(linha, comando, quadras, tq, svg);
     }
 }
