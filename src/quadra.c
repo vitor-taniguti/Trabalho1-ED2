@@ -1,19 +1,18 @@
 #include "quadra.h"
-#include "pessoa.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define maximo_enderecos_quadra 50
+#define maximo_pessoas_endereco 50
 
 typedef struct{
     char corP[20], corB[20], espessura[10];
 } TipoQuadra;
 
 typedef struct{
-    double numero;
-    char complemento[10];
-    char cpfMorador[15];
+    char cpfMorador[maximo_pessoas_endereco][15];
+    int quantidadeMoradores;
 } Endereco;
 
 typedef struct{
@@ -26,8 +25,6 @@ typedef struct{
     double x, y, w, h;
     Face faces[4];
 } Quadra;
-
-
 
 quadra criarQuadra(char* cep, double x, double y, double w, double h){
     Quadra* q = (Quadra*) malloc(sizeof(Quadra));
@@ -65,6 +62,36 @@ double getWQuadra(quadra q){
 double getHQuadra(quadra q){
     Quadra* qua = (Quadra*) q;
     return qua->h;
+}
+
+face getFaceQuadra(quadra q, int indice){
+    Quadra* qua = (Quadra*) q;
+    return &(qua->faces[indice]);
+}
+
+endereco getEnderecoFace(face f, int indice){
+    Face* fa = (Face*) f;
+    return &(fa->enderecos[indice]);
+}
+
+int getQuantidadeEnderecosFace(face f){
+    Face* fa = (Face*) f;
+    return fa->quantidadeEnderecos;
+}
+
+char* getCpfEndereco(endereco e, int indice){
+    Endereco* end = (Endereco*) e;
+    return &(end->cpfMorador[indice]);
+}
+
+int getQuantidadeMoradoresEndereco(endereco e){
+    Endereco* end = (Endereco*) e;
+    return end->quantidadeMoradores;
+}
+
+void liberarQuadra(quadra q){
+    Quadra* qua = (Quadra*) q;
+    free(qua);
 }
 
 char* getEspessuraTipoQuadra(tipoQuadra tq){

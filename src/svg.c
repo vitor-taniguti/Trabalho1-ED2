@@ -1,6 +1,5 @@
 #include "svg.h"
 #include "quadra.h"
-#include "texto.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,13 +16,12 @@ void inicializarSVG(arquivo saida){
     fprintf(saida, "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
 }
 
-void inserirQuadraSVG(arquivo saida, quadra q){
-    fprintf(saida, "<rect id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" height=\"%lf\" width=\"%lf\" y=\"%lf\" x=\"%lf\" />\n", getIdRetangulo(r), getCorPRetangulo(r), getCorBRetangulo(r), getHRetangulo(r), getWRetangulo(r), getYRetangulo(r), getXRetangulo(r));
+void inserirRetanguloSVG(arquivo saida, double x, double y, double w, double h, char* corP, char* corB){
 }
 
-void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
+void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora){
     char *ancora_str;
-    switch (getATexto(txt)) {
+    switch (ancora) {
         case 'm':
             ancora_str = "middle";
             break;
@@ -35,7 +33,7 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
             ancora_str = "start";
             break;
     }
-    fprintf(saida, "<text id=\"%d\" style=\"font-size:%s;font-family:%s;fill:%s;stroke:%s\" y=\"%lf\" x=\"%lf\" text-anchor=\"%s\">%s</text>\n", getIdTexto(txt), getSize(tt), getFamily(tt), getCorPTexto(txt), getCorBTexto(txt), getYtTexto(txt), getXtTexto(txt), ancora_str, getTxtoTexto(txt));
+
 }
 
 void fecharSVG(arquivo saida) {

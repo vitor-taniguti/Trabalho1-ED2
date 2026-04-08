@@ -31,6 +31,10 @@ pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc
     strncpy(p->nascimento, nascimento, 10);
     p->nascimento[10] = '\0';
 
+    p->numero = 0;
+
+    p->morador = 0;
+
     return p;
 }
 

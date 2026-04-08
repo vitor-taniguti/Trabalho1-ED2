@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "quadra.h"
-#include "texto.h"
 
 /*
 Módulo responsável por gerenciar a criação e escrita dos arquivos com final .svg.
@@ -26,13 +25,33 @@ void inicializarSVG(arquivo saida);
 /// @brief Adiciona a tag rect do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
 /// @param q Ponteiro para a quadra 
-void inserirRetanguloSVG(arquivo saida, quadra q);
+void inserirRetanguloSVG(arquivo saida, double x, double y, char* corP, char* corB);
+
+/// @brief 
+/// @param saida 
+/// @param x 
+/// @param y 
+/// @param raio 
+/// @param corP 
+/// @param corB 
+void inserirCirculoSVG(arquivo saida, double x, double y, double raio, char* corP, char* corB);
 
 /// @brief Adiciona a tag text do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
-/// @param txt Forma do texto
-/// @param tt Atributos estéticos do texto
-void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt);
+/// @param texto Texto que será escrito
+void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora);
+
+/// @brief 
+/// @param saida 
+/// @param x 
+/// @param y 
+void inserirXSVG(arquivo saida, double x, double y);
+
+/// @brief 
+/// @param saida 
+/// @param x 
+/// @param y 
+void inserirCruzSVG(arquivo saida, double x, double y);
 
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

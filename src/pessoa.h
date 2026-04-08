@@ -86,6 +86,11 @@ void setNumeroPessoa(pessoa p, int numero);
 /// @param complemento O complemento da residência da pessoa
 void setComplementoPessoa(pessoa p, char* complemento);
 
+/// @brief Define se a pessoa é moradora ou não (0 - sem teto, 1 - morador)
+/// @param p Ponteiro para pessoa
+/// @param morador Inteiro identificador de morador (0 - sem teto, 1 - morador)
+void setMoradorPessoa(pessoa p, int morador);
+
 /// @brief Libera a memória alocada para a pessoa
 /// @param p Ponteiro para a pessoa
 void liberarPessoa(pessoa p);

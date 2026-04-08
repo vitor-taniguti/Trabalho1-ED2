@@ -26,8 +26,7 @@ elemento buscarHash(hash h, char* chave);
 
 /// @brief Remove o elemento do hashfile (habitante ou quadra)
 /// @param h Hashfile onde o elemento será removido
-/// @param e Elemento que será removido
 /// @param chave Chave responsável por buscar o elemento que será removido
-void removerHash(hash h, elemento e, char* chave);
+void removerHash(hash h, char* chave);
 
 #endif
