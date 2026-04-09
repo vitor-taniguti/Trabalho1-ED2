@@ -22,6 +22,10 @@ typedef void* tipoQuadra;
 /// @return A quadra criada com os atributos especificados
 quadra criarQuadra(char* cep, double x, double y, double w, double h);
 
+/// @brief Pega o tamanho da memória alocada para a struct quadra
+/// @return O tamanho da memória alocada para a struct quadra
+int getTamanhoQuadra();
+
 /// @brief Pega a coordenada X da âncora da quadra
 /// @param q Ponteiro para a quadra que a coordenada será pega
 /// @return A coordenada X da âncora da quadra
@@ -70,20 +74,67 @@ char* getCpfEndereco(endereco e, int indice);
 /// @return A quantidade d emoradores no endereço especificado
 int getQuantidadeMoradoresEndereco(endereco e);
 
+/// @brief Busca o endereço de uma quadra, face e número especificados
+/// @param q Quadra do endereço
+/// @param face Face do endereço
+/// @param numero Numero do endereço
+/// @return O endereco especificado, NULL se não encontrar
+endereco buscarEndereco(quadra q, char face, int numero);
+
+/// @brief Adiciona o cpf de um morador no endereço especificado
+/// @param cpf Cpf do morador novo
+/// @param e Ponteiro para o endereço do morador novo
+void adicionarMoradorEndereco(char* cpf, endereco e);
+
+/// @brief Remove o cpf do morador do endereço especificado
+/// @param cpf Cpf do morador que será removido
+/// @param e Ponteiro para o endereço que o morador será removido
+void removerMoradorEndereco(char* cpf, endereco e);
+
+/// @brief Pega as coordenadas do endereço especificado, com relação à sua quadra, face e número
+/// @param q Ponteiro para a quadra do endereço
+/// @param face Face do endereço
+/// @param numero Número do endereço
+/// @param x Endereço da variável que será guardada a coordenada X
+/// @param y Endereço da variável que será guardada a coordenada Y
+void getCoordenadasEndereco(quadra q, char face, int numero, double* x, double* y);
+
+/// @brief Libera a quadra
+/// @param q Ponteiro para quadra
 void liberarQuadra(quadra q);
 
+/// @brief Pega a espessura do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @return A espessura do tipo da quadra
 char* getEspessuraTipoQuadra(tipoQuadra tq);
 
+/// @brief Pega a cor de borda do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @return A cor de bordado tipo da quadra
 char* getCorBTipoQuadra(tipoQuadra tq);
 
+/// @brief Pega a cor de preenchimento do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @return A cor de preenchimento do tipo da quadra 
 char* getCorPTipoQuadra(tipoQuadra tq);
 
+/// @brief Define a espessura do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @param sw A espessura do tipo da quadra
 void setEspessuraTipoQuadra(tipoQuadra tq, char* sw);
 
+/// @brief Define a cor de bordaa do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @param cstrk A cor de borda do tipo da quadra
 void setCorBTipoQuadra(tipoQuadra tq, char* cstrk);
 
+/// @brief Define a cor de preenchimento do tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
+/// @param cfill A cor de preenchimento do tipo da quadra
 void setCorPTipoQuadra(tipoQuadra tq, char* cfill);
 
+/// @brief Libera o tipo da quadra
+/// @param tq Ponteiro para o tipo da quadra
 void liberarTipoQuadra(tipoQuadra tq);
 
 #endif

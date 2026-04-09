@@ -72,16 +72,113 @@ void pq(char* cep, hash habitantes, hash quadras, arquivo svg){
     inserirTextoSVG(svg, stringFaces[1], x+(w/2), y-5, 'm');
     inserirTextoSVG(svg, stringFaces[2], x, y+(h/2), 'f');
     inserirTextoSVG(svg, stringFaces[3], x+w, y+(h/2), 'i');
+    inserirTextoSVG(svg, stringTotal, x+(w/2), y+(h/2), 'm');
 }
 
-void censo(hash habitantes, arquivo txt){
+void censo(estatistica e, arquivo txt){
+
+    int morHom = getInfoEstatistica(e, 1), morMul = getInfoEstatistica(e, 2);
+    int semTetoHom = getInfoEstatistica(e, 3), semTetoMul = getInfoEstatistica(e, 4);
+
+    int nHab = morHom + morMul + semTetoHom + semTetoMul;
+    int nMor = morHom + morMul;
+    int nHom = morHom + semTetoHom;
+    int nMul = morMul + semTetoMul;
+    int nST = semTetoHom + semTetoMul;
+
+    if (nHab == 0){
+        printf("A cidade de Bitnópolis está vazia! Censo não gerado.\n");
+        return;
+    }
+
+    double morPhab = (double) nMor / nHab; 
+    double pHabHom = ((double) nHom / nHab) * 100.0;
+    double pHabMul = ((double) nMul / nHab) * 100.0;
+    double pMorHom = (nMor > 0) ? (((double) morHom / nMor) * 100.0) : 0.0;
+    double pMorMul = (nMor > 0) ? (((double) morMul / nMor) * 100.0) : 0.0;
+    double pSTHom = (nST > 0) ? (((double) semTetoHom / nST) * 100.0) : 0.0;
+    double pSTMul = (nST > 0) ? (((double) semTetoMul / nST) * 100.0) : 0.0;
     
+    printarCenso(txt, nHab, nMor, morPhab, nHom, nMul, pHabHom, pHabMul, pMorHom, pMorMul, nST, pSTHom, pSTMul);
 }
 
-void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, arquivo txt, arquivo svg){
+void h(char* cpf, hash habitantes, arquivo txt){
+    pessoa p = buscarHash(habitantes, cpf);
+
+    printarDadosPessoa(txt, p);
+
+    if (getMoradorPessoa(p) == 1) printarEnderecoPessoa(txt, p);
+    else fprintf(txt, "Habitante não é morador.\n");
+}
+
+void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes){
+    inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
+}
+
+void rip(char* cpf, hash habitantes, hash quadras, arquivo txt, arquivo svg){
+    pessoa p = buscarHash(habitantes, cpf);
+
+    printarDadosPessoa(txt, p);
+
+    if (getMoradorPessoa(p) == 1){
+        printarEnderecoPessoa(txt, p);
+
+        double x, y;
+
+        getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
+
+        inserirCruzSVG(svg, x, y);
+    }
+
+    removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
+
+    removerHash(habitantes, cpf);
+}
+
+void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash habitantes, hash quadras, arquivo svg){
+    pessoa p = buscarHash(habitantes, cpf);
+
+    endereco endAntigo = buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p));
+    endereco endNovo = buscarEndereco(buscarHash(quadras, cep), lado, numero);
+
+    removerMoradorEndereco(cpf, endAntigo);
+    adicionarMoradorEndereco(cpf, endNovo);
+
+    setCepPessoa(p, cep);
+    setFacePessoa(p, lado);
+    setNumeroPessoa(p, numero);
+    setComplementoPessoa(p, complemento);
+
+    double x, y;
+
+    getCoordenadasEndereco(buscarHash(quadras, cep), lado, numero, &x, &y);
+
+    inserirRetanguloSVG(svg, x, y, 5.0, 5.0, "red", "red");
+    inserirTextoSVG(svg, cpf, x, y, 'm');
+}
+
+void dspj(char* cpf, hash habitantes, hash quadras, arquivo txt, arquivo svg){
+    pessoa p = buscarHash(habitantes, cpf);
+
+    printarDadosPessoa(txt, p);
+    printarEnderecoPessoa(txt, p);
+
+    double x, y;
+
+    getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
+
+    removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
+    setMoradorPessoa(p, 0);
+
+    inserirCirculoSVG(svg, x, y, 2.5, "black", "black");
+}
+
+void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
     char cep[10] = {0}, complemento[10] = {0}, lado = ' ', tipo[2] = {0};
     int numero = 0;
+
+    printarLinhaComandoTxt(txt, linha);
     
     if (strcmp(comando, "rq") == 0){
         sscanf(linha, "%2s %9s", tipo, cep);
@@ -90,21 +187,26 @@ void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, a
         sscanf(linha, "%2s %9s", tipo, cep);
         pq(cep, habitantes, quadras, svg);
     } else if (strcmp(comando, "censo") == 0){
-        censo(txt);
+        censo(e, txt);
     } else if (strcmp(comando, "h?") == 0){
-
+        sscanf(linha, "%2s %14s", tipo, cpf);
+        h(cpf, habitantes, txt);
     } else if (strcmp(comando, "nasc") == 0){
-
+        sscanf(linha, "%4s %14s %49s %49s %c %10s", tipo, cpf, nome, sobrenome, &sexo, nascimento);
+        nasc(cpf, nome, sobrenome, sexo, nascimento, habitantes);
     } else if (strcmp(comando, "rip") == 0){
-
+        sscanf(linha, "%3s %14s", tipo, cpf);
+        rip(cpf, habitantes, quadras, txt, svg);
     } else if (strcmp(comando, "mud") == 0){
-
+        sscanf(linha, "%3s %14s %9s %c %9s", tipo, cpf, cep, lado, complemento);
+        mud(cpf, cep, lado, numero, complemento, habitantes, quadras, svg);
     } else if (strcmp(comando, "dspj") == 0){
-
+        sscanf(linha, "%4s %14s", tipo, cpf);
+        dspj(cpf, habitantes, quadras, txt, svg);
     } else printf("Comando do qry inválido!\n");
 }
 
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras){
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, estatistica e){
     if (qry == NULL){
         printf("O arquivo qry não foi aberto!\n");
         exit(1);
@@ -122,6 +224,6 @@ void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash 
 
         comando[i] = '\0';
 
-        processarLinha(linha, comando, habitantes, quadras, txt, svg);
+        processarLinha(linha, comando, habitantes, quadras, e, txt, svg);
     }
 }

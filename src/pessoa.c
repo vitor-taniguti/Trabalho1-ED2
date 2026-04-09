@@ -38,6 +38,10 @@ pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc
     return p;
 }
 
+int getTamanhoPessoa(){
+    return sizeof(Pessoa);
+}
+
 char* getCpfPessoa(pessoa p){
     Pessoa* pes = (Pessoa*) p;
     return pes->cpf;

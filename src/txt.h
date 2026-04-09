@@ -18,6 +18,11 @@ typedef FILE* arquivo;
 /// @param caminhoTxt Ponteiro para o caminho onde será salvo o arquivo de texto
 void abrirArquivoTxt(arquivo* txt, char* caminhoTxt);
 
+/// @brief Printa a linha de comando lida no qry
+/// @param txt Arquivo de texto onde a linha de comando será printada
+/// @param linhaComando A linha de comando do qry
+void printarLinhaComandoTxt(arquivo txt, char* linhaComando);
+
 /// @brief Printa os dados da pessoa especificada
 /// @param txt Arquivo de texto onde os dados serão printados
 /// @param p Ponteiro para pessoa

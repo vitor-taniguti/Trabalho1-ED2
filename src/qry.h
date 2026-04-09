@@ -4,6 +4,7 @@
 #include "txt.h"
 #include "svg.h"
 #include "hashfile.h"
+#include "estatistica.h"
 #include <stdio.h>
 
 /*
@@ -22,6 +23,6 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry);
 /// @param svg Aquivo com extensao .svg que será usado
 /// @param habitantes Hashfile onde os habitantes estão armazenados
 /// @param quadras Hashfile onde as quadras estão armazenadas
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras);
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, estatistica e);
 
 #endif

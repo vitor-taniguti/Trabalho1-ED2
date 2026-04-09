@@ -18,24 +18,26 @@ estatistica criarEstatistica(){
     return (Estatistica*) est;
 }
 
-void acrescentarEstatitica(estatistica e, int opcao){
+void modificarEstatistica(estatistica e, int opcaoInformacao, int opcaoModificacao){
     Estatistica* est = (Estatistica*) e;
 
-    switch (opcao){
+    int modificacao = opcaoModificacao ? -1 : 1;
+
+    switch (opcaoInformacao){
         case 1:
-            est->morHom++;
+            est->morHom += modificacao;
             break;
         case 2:
-            est->morMul++;
+            est->morMul += modificacao;
             break;
         case 3:
-            est->semTetoHom++;
+            est->semTetoHom += modificacao;
             break;
         case 4:
-            est->semTetoMul++;
+            est->semTetoMul += modificacao;
             break;
         default:
-            printf("Opção inválida ao acrescentar estatística!\n");
+            printf("Opção inválida ao modificar estatística!\n");
             break;
     }
 }

@@ -16,6 +16,10 @@ typedef void* pessoa;
 /// @return Pessoa criada com os atributos especificados
 pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento);
 
+/// @brief Pega o tamanho da memória alocada para a struct pessoa
+/// @return O tamanho da memória alocada para a struct pessoa
+int getTamanhoPessoa();
+
 /// @brief Pega o CPF da pessoa
 /// @param p Ponteiro para a pessoa
 /// @return O CPF da pessoa

@@ -7,3 +7,7 @@ void abrirArquivoTxt(arquivo* saida, char* caminhoTxt){
         exit(1);
     }
 }
+
+void printarLinhaComandoTxt(arquivo txt, char* linhaComando){
+    fprintf(txt, "[*] %s\n\n", linhaComando);
+}

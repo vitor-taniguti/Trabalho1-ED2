@@ -19,13 +19,19 @@ void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
     if (strcmp(comando, "p") == 0){
         sscanf(linha, "%1s %14s %s %s %c %10s", tipo, cpf, nome, sobrenome, sexo, nascimento);
         inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
+
+        modificarEstatistica(e, 3, 1);
     } else if (strcmp(comando, "m") == 0){
         sscanf(linha, "%1s %14s %9s %c %d %9s", tipo, cpf, cep, &face, &numero, complemento);
         pessoa p = buscarHash(habitantes, cpf);
+
         setCepPessoa(p, cep);
         setFacePessoa(p, face);
         setNumeroPessoa(p, numero);
         setComplementoPessoa(p, complemento);
+
+        modificarEstatistica(e, 1, 1);
+        modificarEstatistica(e, 3, 0);
     } else printf("Comando do pm inválido!\n");
 }
 
