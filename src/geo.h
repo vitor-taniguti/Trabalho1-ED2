@@ -17,6 +17,7 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo);
 /// @param geo Ponteiro para o arquivo de entrada
 /// @param quadras Hashfile onde as quadras serão inseridas
 /// @param tq Tipo das quadras (espessua, cor de preenchimento e de borda)
-void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq);
+/// @param svg Ponteiro para a arquivo com final .svg
+void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq, arquivo svg);
 
 #endif

@@ -18,23 +18,21 @@ estatistica criarEstatistica(){
     return (Estatistica*) est;
 }
 
-void modificarEstatistica(estatistica e, int opcaoInformacao, int opcaoModificacao){
+void modificarEstatistica(estatistica e, int opcaoInformacao, int valorModificacao){
     Estatistica* est = (Estatistica*) e;
-
-    int modificacao = opcaoModificacao ? -1 : 1;
 
     switch (opcaoInformacao){
         case 1:
-            est->morHom += modificacao;
+            est->morHom += valorModificacao;
             break;
         case 2:
-            est->morMul += modificacao;
+            est->morMul += valorModificacao;
             break;
         case 3:
-            est->semTetoHom += modificacao;
+            est->semTetoHom += valorModificacao;
             break;
         case 4:
-            est->semTetoMul += modificacao;
+            est->semTetoMul += valorModificacao;
             break;
         default:
             printf("Opção inválida ao modificar estatística!\n");
@@ -56,4 +54,8 @@ int getInfoEstatistica(estatistica e, int opcao){
     }
 
     return -1;
+}
+
+void liberarEstatistica(estatistica e){
+    free(e);
 }

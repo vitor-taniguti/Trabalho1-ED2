@@ -31,7 +31,7 @@ void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
         setComplementoPessoa(p, complemento);
 
         modificarEstatistica(e, 1, 1);
-        modificarEstatistica(e, 3, 0);
+        modificarEstatistica(e, 3, -1);
     } else printf("Comando do pm inválido!\n");
 }
 

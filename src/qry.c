@@ -111,37 +111,47 @@ void h(char* cpf, hash habitantes, arquivo txt){
     else fprintf(txt, "Habitante não é morador.\n");
 }
 
-void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes){
+void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes, estatistica e){
     inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
+    
+    modificarEstatistica(e, (sexo == 'M' ? 3 : 4), 1);
 }
 
-void rip(char* cpf, hash habitantes, hash quadras, arquivo txt, arquivo svg){
+void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
     printarDadosPessoa(txt, p);
 
     if (getMoradorPessoa(p) == 1){
         printarEnderecoPessoa(txt, p);
+        modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
+        removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
 
         double x, y;
 
         getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
-
         inserirCruzSVG(svg, x, y);
-    }
-
-    removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
+    } else modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
 
     removerHash(habitantes, cpf);
 }
 
-void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash habitantes, hash quadras, arquivo svg){
+void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash habitantes, hash quadras, estatistica e, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
-    endereco endAntigo = buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p));
+    if (getMoradorPessoa(p) == 1){
+        endereco endAntigo = buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p));
+
+        if (endAntigo != NULL) removerMoradorEndereco(cpf, endAntigo);
+    } else{
+        modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), 1);
+        modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
+
+        setMoradorPessoa(p, 1);
+    }
+
     endereco endNovo = buscarEndereco(buscarHash(quadras, cep), lado, numero);
 
-    removerMoradorEndereco(cpf, endAntigo);
     adicionarMoradorEndereco(cpf, endNovo);
 
     setCepPessoa(p, cep);
@@ -157,8 +167,11 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
     inserirTextoSVG(svg, cpf, x, y, 'm');
 }
 
-void dspj(char* cpf, hash habitantes, hash quadras, arquivo txt, arquivo svg){
+void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
+
+    modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
+    modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), 1);
 
     printarDadosPessoa(txt, p);
     printarEnderecoPessoa(txt, p);
@@ -193,16 +206,16 @@ void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, e
         h(cpf, habitantes, txt);
     } else if (strcmp(comando, "nasc") == 0){
         sscanf(linha, "%4s %14s %49s %49s %c %10s", tipo, cpf, nome, sobrenome, &sexo, nascimento);
-        nasc(cpf, nome, sobrenome, sexo, nascimento, habitantes);
+        nasc(cpf, nome, sobrenome, sexo, nascimento, habitantes, e);
     } else if (strcmp(comando, "rip") == 0){
         sscanf(linha, "%3s %14s", tipo, cpf);
-        rip(cpf, habitantes, quadras, txt, svg);
+        rip(cpf, habitantes, quadras, e, txt, svg);
     } else if (strcmp(comando, "mud") == 0){
         sscanf(linha, "%3s %14s %9s %c %9s", tipo, cpf, cep, lado, complemento);
-        mud(cpf, cep, lado, numero, complemento, habitantes, quadras, svg);
+        mud(cpf, cep, lado, numero, complemento, habitantes, quadras, e, svg);
     } else if (strcmp(comando, "dspj") == 0){
         sscanf(linha, "%4s %14s", tipo, cpf);
-        dspj(cpf, habitantes, quadras, txt, svg);
+        dspj(cpf, habitantes, quadras, e, txt, svg);
     } else printf("Comando do qry inválido!\n");
 }
 
