@@ -9,7 +9,7 @@
 
 /*
 Módulo responsável por ler o arquivo qry e executar os comandos correspondentes.
-Os comandos lidos acarretam em mudanças nos habitantes e nas quadras da cidade
+Os comandos lidos acarretam em mudanças nos habitantes e nas quadras da cidade.
 */
 
 /// @brief Abre o arquivo para leitura

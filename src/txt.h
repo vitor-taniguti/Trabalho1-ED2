@@ -7,7 +7,7 @@
 #include "quadra.h"
 
 /*
-Módulo responsável por gerenciar a criação e escrita dos arquivos com final .txt.
+Módulo responsável por gerenciar a criação e escrita dos arquivos txt.
 Os comentários feitos estão no padrão que o trabalho solicitou.
 */
 

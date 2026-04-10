@@ -1,6 +1,13 @@
 #ifndef ESTATISTICA_H
 #define ESTATISTICA_H
 
+/*
+Módulo responsável pelo gerenciamento do objeto Estatistica, que guarda informações da população de Bitnópolis.
+Esse módulo apresenta funções responsáveis por modificar e pegar as informações da struct Estatistica.
+As informações guardadas são os números de: moradores homens, moradores mulheres, homens sem-teto e mulheres sem-teto.
+Apenas com essas informações, podemos deduzir muitas outras estatísticas da cidade.
+*/
+
 typedef void* estatistica;
 
 /// @brief Cria um objeto estatística 

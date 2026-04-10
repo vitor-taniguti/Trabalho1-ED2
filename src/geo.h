@@ -5,6 +5,12 @@
 #include "hashfile.h"
 #include "quadra.h"
 
+/*
+Módulo responsável por gerenciar a criação e escrita dos arquivos geo.
+A leitura do arquivo, além de, claro, ler, também insere no arquivo .svg as quadras lidas, com as especificações também lidas no arquivo.
+Esse módulo é responsável pela criação da cidade (abstração).
+*/
+
 typedef FILE* arquivo;
 typedef void* fila;
 

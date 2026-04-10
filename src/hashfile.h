@@ -3,6 +3,13 @@
 
 #include <stdio.h>
 
+/*
+Módulo responsável pelo gerenciamento do hashfile. 
+Esse módulo consegue diferenciar quando a chave passada é cpf e cep, assim, inserindo corretamente com o tamanho certo de bits no disco.
+Contém as funções de inserir, buscar e remover do hashfile.
+Além disso, cria um dump (arquivo hfd) reportando suas modificações.
+*/
+
 typedef void* hash;
 typedef void* elemento;
 typedef FILE* arquivo;

@@ -5,6 +5,14 @@
 #include "estatistica.h"
 #include <stdio.h>
 
+/*
+Módulo responsável por gerenciar a criação e escrita dos arquivos pm.
+A leitura do arquivo resulta na criação dos habitantes de Bitnópolis, com seus atributos já especificados.
+Além disso, a leitura promove os habitantes à moradores, concedendo a eles os atributos de morador.
+Por fim, também atualiza a estatística dos habitantes de Bitnópolis. 
+Esse módulo é responsável pela povoação da cidade (abstração).
+*/
+
 typedef FILE* arquivo;
 
 /// @brief Abre o arquivo com extensão .pm

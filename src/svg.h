@@ -6,7 +6,7 @@
 #include "quadra.h"
 
 /*
-Módulo responsável por gerenciar a criação e escrita dos arquivos com final .svg.
+Módulo responsável por gerenciar a criação e escrita dos arquivos svg.
 A inserção das formas será feita no formato SVG padrão.
 */
 
@@ -24,16 +24,21 @@ void inicializarSVG(arquivo saida);
 
 /// @brief Adiciona a tag rect do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
-/// @param 
+/// @param x Coordenada X da âncora do retângulo
+/// @param y Coordenada Y da âncora do retângulo
+/// @param w Largura do retângulo
+/// @param h Altura do retângulo
+/// @param corP Cor de preenchimento do retângulo
+/// @param corB Cor de borda do retângulo
 void inserirRetanguloSVG(arquivo saida, double x, double y, double w, double h, char* corP, char* corB);
 
-/// @brief 
-/// @param saida 
-/// @param x 
-/// @param y 
-/// @param raio 
-/// @param corP 
-/// @param corB 
+/// @brief Adiciona a tag circle do arquivo SVG
+/// @param saida Ponteiro para o arquivo de saída
+/// @param x Coordenada X da âncora do círculo
+/// @param y Coordenada Y da âncora do círculo
+/// @param raio Raio do círculo
+/// @param corP Cor de preenchimento do círculo
+/// @param corB Cor de borda do círculo
 void inserirCirculoSVG(arquivo saida, double x, double y, double raio, char* corP, char* corB);
 
 /// @brief Adiciona a tag text do arquivo SVG
@@ -41,17 +46,18 @@ void inserirCirculoSVG(arquivo saida, double x, double y, double raio, char* cor
 /// @param texto Texto que será escrito
 void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora);
 
-/// @brief 
-/// @param saida 
-/// @param x 
-/// @param y 
+/// @brief Adiciona um formato de X no arquivo SVG
+/// @param saida Ponteiro para o arquivo de saída
+/// @param x Coordenada X do X
+/// @param y Coorenada Y do X
 void inserirXSVG(arquivo saida, double x, double y);
 
-/// @brief 
-/// @param saida 
-/// @param x 
-/// @param y 
-void inserirCruzSVG(arquivo saida, double x, double y);
+/// @brief Adiciona uma cruz no arquivo SVG
+/// @param saida Ponteiro para o arquivo de saída
+/// @param x Coordenada X da cruz
+/// @param y Coordenada Y da cruz
+/// @param cor Cor da cruz
+void inserirCruzSVG(arquivo saida, double x, double y, char* cor);
 
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

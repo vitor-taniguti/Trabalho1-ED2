@@ -3,6 +3,9 @@
 
 /*
 Módulo responsável na manipulação do objeto pessoa, contendo as funções de get e set referentes.
+Todas as pessoas são habitantes, porém, nem sempre são moradoras. Há uma flag em sua struct indicando isso.
+Habitantes tem cpf, nome, sobrenome, sexo e data de nascimento.
+Para o caso da pessoa ser moradora, a pessoa também possui cep, face, número e complemento.
 */
 
 typedef void* pessoa;

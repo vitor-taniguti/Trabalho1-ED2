@@ -16,6 +16,8 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry){
 void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
     quadra q = buscarHash(quadras, cep);
 
+    fprintf(txt, "Dados dos moradores que viraram sem-teto:\n\n");
+
     for (int i = 0; i < 4; i++){
         face f = getFaceQuadra(q, i);
         int qtdEnd = getQuantidadeEnderecosFace(f);
@@ -105,10 +107,10 @@ void censo(estatistica e, arquivo txt){
 void h(char* cpf, hash habitantes, arquivo txt){
     pessoa p = buscarHash(habitantes, cpf);
 
+    fprintf(txt, "Dados do habitante:\n\n");
     printarDadosPessoa(txt, p);
 
     if (getMoradorPessoa(p) == 1) printarEnderecoPessoa(txt, p);
-    else fprintf(txt, "Habitante não é morador.\n");
 }
 
 void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes, estatistica e){
@@ -120,17 +122,19 @@ void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, h
 void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
+    fprintf(txt, "Dados do habitante falecido:\n\n");
     printarDadosPessoa(txt, p);
 
     if (getMoradorPessoa(p) == 1){
         printarEnderecoPessoa(txt, p);
+
         modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
         removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
 
         double x, y;
 
         getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
-        inserirCruzSVG(svg, x, y);
+        inserirCruzSVG(svg, x, y, "red");
     } else modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
 
     removerHash(habitantes, cpf);
@@ -173,6 +177,7 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
     modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
     modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), 1);
 
+    fprintf(txt, "Dados da pessoa que foi despejada:\n\n");
     printarDadosPessoa(txt, p);
     printarEnderecoPessoa(txt, p);
 

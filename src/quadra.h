@@ -1,17 +1,17 @@
 #ifndef QUADRA_H    
 #define QUADRA_H
 
-/*
-Módulo responsável na manipulação do objeto quadra, tendo as funções get e set.
-Uma quadra é um retângulo, então, possui 4 lados: norte, sul, leste e oeste. 
-Cada lado, possui endereços, onde uma pessoa pode ou não morar lá.
-O identificador único da quadra é uma string chamado "cep" 
-*/
-
 typedef void* endereco;
 typedef void* face;
 typedef void* quadra;
 typedef void* tipoQuadra;
+
+/*
+Módulo responsável na manipulação do objeto quadra, tendo as funções get e set.
+Uma quadra é um retângulo, então, possui 4 lados: norte, sul, leste e oeste. 
+Cada lado, possui endereços, onde uma ou mais pessoas podem ou não morar lá.
+O identificador único da quadra é uma string chamado "cep".
+*/
 
 /// @brief Cria uma quadra
 /// @param cep Identificador único da quadra
