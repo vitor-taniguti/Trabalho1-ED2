@@ -11,20 +11,20 @@
 extern int getTamanhoPessoa();
 extern int getTamanhoQuadra();
 
-typedef struct {
+typedef struct{
     char chave[20];
     long offsetDados;
 } EntradaIndice;
 
 #define max_registros_por_bloco ((tamanho_bloco - (2 * sizeof(int))) / sizeof(EntradaIndice))
 
-typedef struct {
+typedef struct{
     int profundidadeLocal;
     int quantidade;
     EntradaIndice registros[max_registros_por_bloco];
 } BucketIndice;
 
-typedef struct {
+typedef struct{
     arquivo arquivoHf;     
     arquivo arquivoHfd;    
 
@@ -41,12 +41,12 @@ typedef struct {
     long diretorio[maximo_diretorio]; 
 } HashDinamico;
 
-int getTamanhoElemento(char* chave) {
+int getTamanhoElemento(char* chave){
     if (strlen(chave) > 10) return getTamanhoPessoa(); 
     else return getTamanhoQuadra(); 
 }
 
-int funcaoHash(const char *chave, int profundidade) {
+int funcaoHash(const char *chave, int profundidade){
     long hash = 5381;
     int c;
     while ((c = *chave++)) hash = ((hash << 5) + hash) + c;
@@ -54,7 +54,7 @@ int funcaoHash(const char *chave, int profundidade) {
     return hash & ((1 << profundidade) - 1);
 }
 
-void salvarCabecalhoEDiretorio(HashDinamico *ha) {
+void salvarCabecalhoEDiretorio(HashDinamico *ha){
     fseek(ha->arquivoHf, 0, SEEK_SET);
     
     fwrite(&ha->numBuckets, sizeof(int), 1, ha->arquivoHf);
@@ -73,7 +73,7 @@ void salvarCabecalhoEDiretorio(HashDinamico *ha) {
     fflush(ha->arquivoHf);
 }
 
-void gerarDumpHfd(HashDinamico *ha) {
+void gerarDumpHfd(HashDinamico *ha){
     fseek(ha->arquivoHfd, 0, SEEK_SET); 
     
     fprintf(ha->arquivoHfd, "DUMP\n");
@@ -89,7 +89,7 @@ void gerarDumpHfd(HashDinamico *ha) {
 
     fprintf(ha->arquivoHfd, "* Dump table\n");
     int tamanhoDiretorio = 1 << ha->profundidadeGlobal;
-    for (int i = 0; i < tamanhoDiretorio; i++) {
+    for (int i = 0; i < tamanhoDiretorio; i++){
         fprintf(ha->arquivoHfd, "[%d] %ld\n", i, ha->diretorio[i]);
     }
 
@@ -97,7 +97,7 @@ void gerarDumpHfd(HashDinamico *ha) {
     BucketIndice b;
     int indiceBloco = 0;
     
-    for (int i = 0; i < tamanhoDiretorio; i++) {
+    for (int i = 0; i < tamanhoDiretorio; i++){
         if (i > 0 && ha->diretorio[i] == ha->diretorio[i-1]) continue;
 
         fseek(ha->arquivoHf, ha->diretorio[i], SEEK_SET);
@@ -105,10 +105,10 @@ void gerarDumpHfd(HashDinamico *ha) {
 
         fprintf(ha->arquivoHfd, "BLOCO: %d\n", indiceBloco++);
         
-        for (int j = 0; j < max_registros_por_bloco; j++) {
-            if (j < b.quantidade) {
+        for (int j = 0; j < max_registros_por_bloco; j++){
+            if (j < b.quantidade){
                 fprintf(ha->arquivoHfd, "1 | 0000000000 | %d______%s | 0.000000 |\n", j, b.registros[j].chave);
-            } else {
+            } else{
                 fprintf(ha->arquivoHfd, "0 | 0000000000 | %d______ | 0.000000 |\n", j);
             }
         }
@@ -118,12 +118,14 @@ void gerarDumpHfd(HashDinamico *ha) {
     fflush(ha->arquivoHfd);
 }
 
-hash criarHash(char* nomeArquivo) {
+hash criarHash(char* nomeArquivo){
     HashDinamico *ha = malloc(sizeof(HashDinamico));
     char nomeHf[50], nomeHfd[50];
 
-    snprintf(nomeHf, sizeof(nomeHf), "%s.hf", nomeArquivo);
-    snprintf(nomeHfd, sizeof(nomeHfd), "%s.hfd", nomeArquivo);
+    if (nomeArquivo != NULL){
+        snprintf(nomeHf, sizeof(nomeHf), "%s.hf", nomeArquivo);
+        snprintf(nomeHfd, sizeof(nomeHfd), "%s.hfd", nomeArquivo);
+    } else return NULL;
 
     ha->arquivoHf = fopen(nomeHf, "wb+");
     ha->arquivoHfd = fopen(nomeHfd, "w");
@@ -139,7 +141,7 @@ hash criarHash(char* nomeArquivo) {
 
     ha->profundidadeGlobal = 1;
 
-    BucketIndice bVazio = {1, 0, {{0}}};
+    BucketIndice bVazio ={1, 0,{{0}}};
     
     fseek(ha->arquivoHf, ha->offsetBuckets, SEEK_SET);
     long offsetB0 = ftell(ha->arquivoHf);
@@ -158,7 +160,7 @@ hash criarHash(char* nomeArquivo) {
     return (hash) ha;
 }
 
-void inserirHash(hash h, elemento e, char* chave) {
+void inserirHash(hash h, elemento e, char* chave){
     HashDinamico *ha = (HashDinamico*) h;
     
     int indiceDir = funcaoHash(chave, ha->profundidadeGlobal);
@@ -178,7 +180,7 @@ void inserirHash(hash h, elemento e, char* chave) {
     novaEntrada.chave[19] = '\0';
     novaEntrada.offsetDados = offsetDosDados;
 
-    if (b.quantidade < max_registros_por_bloco) {
+    if (b.quantidade < max_registros_por_bloco){
         b.registros[b.quantidade++] = novaEntrada;
         fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
         fwrite(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
@@ -186,10 +188,10 @@ void inserirHash(hash h, elemento e, char* chave) {
         return;
     }
 
-    BucketIndice novoB = {b.profundidadeLocal + 1, 0, {{0}}};
+    BucketIndice novoB ={b.profundidadeLocal + 1, 0,{{0}}};
     b.profundidadeLocal += 1;
 
-    if (b.profundidadeLocal > ha->profundidadeGlobal) {
+    if (b.profundidadeLocal > ha->profundidadeGlobal){
         int tamanho_atual = 1 << ha->profundidadeGlobal;
         for (int i = 0; i < tamanho_atual; i++) ha->diretorio[i + tamanho_atual] = ha->diretorio[i];
         ha->profundidadeGlobal++;
@@ -206,7 +208,7 @@ void inserirHash(hash h, elemento e, char* chave) {
     ha->numBuckets++;
 
     int bit_verificacao = 1 << (b.profundidadeLocal - 1);
-    for (int i = 0; i < max_registros_por_bloco + 1; i++) {
+    for (int i = 0; i < max_registros_por_bloco + 1; i++){
         int hashChave = funcaoHash(todas[i].chave, b.profundidadeLocal);
         if ((hashChave & bit_verificacao) == 0) b.registros[b.quantidade++] = todas[i];
         else novoB.registros[novoB.quantidade++] = todas[i];
@@ -216,8 +218,8 @@ void inserirHash(hash h, elemento e, char* chave) {
     int mascara_nova = (1 << b.profundidadeLocal) - 1;
     int hash_novo_bucket = funcaoHash(novoB.registros[0].chave, b.profundidadeLocal);
 
-    for (int i = 0; i < numEntradas; i++) {
-        if (ha->diretorio[i] == offsetBucket && (i & mascara_nova) == hash_novo_bucket) {
+    for (int i = 0; i < numEntradas; i++){
+        if (ha->diretorio[i] == offsetBucket && (i & mascara_nova) == hash_novo_bucket){
             ha->diretorio[i] = novoOffset;
         }
     }
@@ -231,7 +233,7 @@ void inserirHash(hash h, elemento e, char* chave) {
     gerarDumpHfd(ha);
 }
 
-elemento buscarHash(hash h, char* chave) {
+elemento buscarHash(hash h, char* chave){
     HashDinamico *ha = (HashDinamico*) h;
     
     int indiceDir = funcaoHash(chave, ha->profundidadeGlobal);
@@ -241,8 +243,8 @@ elemento buscarHash(hash h, char* chave) {
     fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
     fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-    for (int i = 0; i < b.quantidade; i++) {
-        if (strcmp(b.registros[i].chave, chave) == 0) {
+    for (int i = 0; i < b.quantidade; i++){
+        if (strcmp(b.registros[i].chave, chave) == 0){
             int tamanho = getTamanhoElemento(chave);
             elemento e = malloc(tamanho);
             fseek(ha->arquivoHf, b.registros[i].offsetDados, SEEK_SET);
@@ -253,7 +255,7 @@ elemento buscarHash(hash h, char* chave) {
     return NULL;
 }
 
-void removerHash(hash h, char* chave) {
+void removerHash(hash h, char* chave){
     HashDinamico *ha = (HashDinamico*) h;
     
     int indiceDir = funcaoHash(chave, ha->profundidadeGlobal);
@@ -263,8 +265,8 @@ void removerHash(hash h, char* chave) {
     fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
     fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-    for (int i = 0; i < b.quantidade; i++) {
-        if (strcmp(b.registros[i].chave, chave) == 0) {
+    for (int i = 0; i < b.quantidade; i++){
+        if (strcmp(b.registros[i].chave, chave) == 0){
             b.registros[i] = b.registros[b.quantidade - 1];
             b.quantidade--;
 
@@ -274,4 +276,51 @@ void removerHash(hash h, char* chave) {
             return;
         }
     }
+}
+
+void atualizarHash(hash h, elemento e, char* chave){
+    HashDinamico *ha = (HashDinamico*) h;
+
+    int indiceDir = funcaoHash(chave, ha->profundidadeGlobal);
+    long offsetBucket = ha->diretorio[indiceDir];
+
+    BucketIndice b;
+    fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
+    fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
+
+    for (int i = 0; i < b.quantidade; i++){
+        if (strcmp(b.registros[i].chave, chave) == 0){
+            long offsetDosDados = b.registros[i].offsetDados;
+            int tamanho = getTamanhoElemento(chave);
+
+            fseek(ha->arquivoHf, offsetDosDados, SEEK_SET);
+
+            fwrite(e, tamanho, 1, ha->arquivoHf);
+
+            fflush(ha->arquivoHf);
+            return;
+        }
+    }
+    
+    printf("Erro: Tentativa de atualizar chave inexistente (%s)\n", chave);
+}
+
+void liberarHash(hash h){
+    if (h == NULL){
+        return; 
+    }
+
+    HashDinamico *ha = (HashDinamico*) h;
+
+    if (ha->arquivoHf != NULL){
+        fclose(ha->arquivoHf);
+        ha->arquivoHf = NULL;
+    }
+
+    if (ha->arquivoHfd != NULL){
+        fclose(ha->arquivoHfd);
+        ha->arquivoHfd = NULL;
+    }
+
+    free(ha);
 }

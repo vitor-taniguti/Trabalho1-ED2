@@ -36,4 +36,14 @@ elemento buscarHash(hash h, char* chave);
 /// @param chave Chave responsável por buscar o elemento que será removido
 void removerHash(hash h, char* chave);
 
+/// @brief Atualiza o registro do elemento no disco 
+/// @param h Hashfile onde o elemento se encontra
+/// @param e Elemento que será atualizado
+/// @param chave Chave responsável por buscar o elemento que será atualizado
+void atualizarHash(hash h, elemento e, char* chave);
+
+/// @brief Libera os arquivos do disco do hashfile
+/// @param h Hashfile que será liberado
+void liberarHash(hash h);
+
 #endif

@@ -42,9 +42,9 @@ void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora
     fprintf(saida, "\t<text x=\"%.4f\" y=\"%.4f\" text-anchor=\"%s\">%s</text>\n", x, y, ancora_str, texto);
 }
 
-void inserirXSVG(arquivo saida, double x, double y){
-    fprintf(saida, "\t<line x1=\"%.4f\" y1=\"%.4f\" x2=\"%.4f\" y2=\"%.4f\" stroke=\"black\" stroke-width=\"2\" />\n", x - 5.0, y - 5.0, x + 5.0, y + 5.0);
-    fprintf(saida, "\t<line x1=\"%.4f\" y1=\"%.4f\" x2=\"%.4f\" y2=\"%.4f\" stroke=\"black\" stroke-width=\"2\" />\n", x - 5.0, y + 5.0, x + 5.0, y - 5.0);
+void inserirXSVG(arquivo saida, double x, double y, char* cor){
+    fprintf(saida, "\t<line x1=\"%.4f\" y1=\"%.4f\" x2=\"%.4f\" y2=\"%.4f\" stroke=\"%s\" stroke-width=\"2\" />\n", x - 5.0, y - 5.0, x + 5.0, y + 5.0, cor);
+    fprintf(saida, "\t<line x1=\"%.4f\" y1=\"%.4f\" x2=\"%.4f\" y2=\"%.4f\" stroke=\"%s\" stroke-width=\"2\" />\n", x - 5.0, y + 5.0, x + 5.0, y - 5.0, cor);
 }
 
 void inserirCruzSVG(arquivo saida, double x, double y, char* cor){

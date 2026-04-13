@@ -36,7 +36,7 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
         }
     }
 
-    inserirXSVG(svg, getXQuadra(q), getYQuadra(q));
+    inserirXSVG(svg, getXQuadra(q), getYQuadra(q), "red");
 
     removerHash(quadras, cep);
 }

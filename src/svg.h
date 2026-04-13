@@ -50,7 +50,8 @@ void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora
 /// @param saida Ponteiro para o arquivo de saída
 /// @param x Coordenada X do X
 /// @param y Coorenada Y do X
-void inserirXSVG(arquivo saida, double x, double y);
+/// @param cor Cor do X
+void inserirXSVG(arquivo saida, double x, double y, char* cor);
 
 /// @brief Adiciona uma cruz no arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

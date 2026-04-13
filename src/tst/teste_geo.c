@@ -6,11 +6,11 @@ hash quadrasTeste;
 tipoQuadra tqTeste;
 arquivo svgTeste;
 
-void setUp(void) {
+void setUp(void){
     quadrasTeste = criarHash(100); 
 }
 
-void tearDown(void) {
+void tearDown(void){
     remove("teste_saida.svg");
     remove("temporario.geo");
 }

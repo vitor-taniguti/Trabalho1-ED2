@@ -17,22 +17,29 @@ void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
     int numero = 0;
     
     if (strcmp(comando, "p") == 0){
-        sscanf(linha, "%1s %14s %s %s %c %10s", tipo, cpf, nome, sobrenome, sexo, nascimento);
+        sscanf(linha, "%1s %14s %s %s %c %10s", tipo, cpf, nome, sobrenome, &sexo, nascimento);
         inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
 
         modificarEstatistica(e, 3, 1);
     } else if (strcmp(comando, "m") == 0){
         sscanf(linha, "%1s %14s %9s %c %d %9s", tipo, cpf, cep, &face, &numero, complemento);
+
         pessoa p = buscarHash(habitantes, cpf);
 
-        setCepPessoa(p, cep);
-        setFacePessoa(p, face);
-        setNumeroPessoa(p, numero);
-        setComplementoPessoa(p, complemento);
+        if (p != NULL) {
+            setCepPessoa(p, cep);
+            setFacePessoa(p, face);
+            setNumeroPessoa(p, numero);
+            setComplementoPessoa(p, complemento);
 
-        modificarEstatistica(e, 1, 1);
-        modificarEstatistica(e, 3, -1);
-    } else printf("Comando do pm inválido!\n");
+            atualizarHash(habitantes, p, cpf);
+
+            modificarEstatistica(e, 1, 1);
+            modificarEstatistica(e, 3, -1);
+
+            free(p); 
+        } else printf("Morador com CPF %s não encontrado.\n", cpf);
+    }
 }
 
 void lerArquivoPm(arquivo pm, hash habitantes, estatistica e){

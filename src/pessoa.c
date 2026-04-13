@@ -17,11 +17,14 @@ pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc
         return NULL;
     }
 
-    strncpy(p->cpf, cpf, 14);
-    p->cpf[14] = '\0';
+    if (nome != NULL){
+        strncpy(p->cpf, cpf, 14);
+        p->cpf[14] = '\0';
+    } else return NULL;
 
-    strncpy(p->nome, nome, 49);
-    p->nome[49] = '\0';
+
+        strncpy(p->nome, nome, 49);
+        p->nome[49] = '\0';
 
     strncpy(p->sobrenome, sobrenome, 49);
     p->sobrenome[49] = '\0';
@@ -121,4 +124,8 @@ void setComplementoPessoa(pessoa p, char* complemento){
 void setMoradorPessoa(pessoa p, int morador){
     Pessoa* pes = (Pessoa*) p;
     pes->morador = morador;
+}
+
+void liberarPessoa(pessoa p){
+    free(p);
 }
