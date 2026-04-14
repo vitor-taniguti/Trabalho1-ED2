@@ -103,6 +103,10 @@ void getCoordenadasEndereco(quadra q, char face, int numero, double* x, double* 
 /// @param q Ponteiro para quadra
 void liberarQuadra(quadra q);
 
+/// @brief Cria um tipo de quadra
+/// @return O tipo de quadra criado
+tipoQuadra criarTipoQuadra();
+
 /// @brief Pega a espessura do tipo da quadra
 /// @param tq Ponteiro para o tipo da quadra
 /// @return A espessura do tipo da quadra

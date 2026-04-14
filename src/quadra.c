@@ -185,6 +185,11 @@ void liberarQuadra(quadra q){
     free(qua);
 }
 
+tipoQuadra criarTipoQuadra(){
+    TipoQuadra* tq = malloc(sizeof(TipoQuadra));
+    return (TipoQuadra*) tq;
+}
+
 char* getEspessuraTipoQuadra(tipoQuadra tq){
     TipoQuadra* qua = (TipoQuadra*) tq;
     return qua->espessura;
