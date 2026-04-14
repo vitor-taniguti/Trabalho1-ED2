@@ -32,6 +32,9 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
 
                 setMoradorPessoa(p, 0);
                 printarDadosPessoa(txt, p);
+
+                atualizarHash(habitantes, p, cpfMorador); 
+                free(p);
             }
         }
     }
@@ -39,6 +42,8 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
     inserirXSVG(svg, getXQuadra(q), getYQuadra(q), "red");
 
     removerHash(quadras, cep);
+
+    free(q);
 }
 
 void pq(char* cep, hash habitantes, hash quadras, arquivo svg){
@@ -75,6 +80,8 @@ void pq(char* cep, hash habitantes, hash quadras, arquivo svg){
     inserirTextoSVG(svg, stringFaces[2], x, y+(h/2), 'f');
     inserirTextoSVG(svg, stringFaces[3], x+w, y+(h/2), 'i');
     inserirTextoSVG(svg, stringTotal, x+(w/2), y+(h/2), 'm');
+
+    free(q);
 }
 
 void censo(estatistica e, arquivo txt){
@@ -111,6 +118,8 @@ void h(char* cpf, hash habitantes, arquivo txt){
     printarDadosPessoa(txt, p);
 
     if (getMoradorPessoa(p) == 1) printarEnderecoPessoa(txt, p);
+
+    free(p);
 }
 
 void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes, estatistica e){
@@ -129,24 +138,39 @@ void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, a
         printarEnderecoPessoa(txt, p);
 
         modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
-        removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
+
+        char* cepAntigo = getCepPessoa(p);
+        quadra q = buscarHash(quadras, cepAntigo);
+        endereco end = buscarEndereco(q, getFacePessoa(p), getNumeroPessoa(p));
+
+        removerMoradorEndereco(cpf, end);
+        atualizarHash(quadras, q, cepAntigo);
 
         double x, y;
 
-        getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
+        getCoordenadasEndereco(q, getFacePessoa(p), getNumeroPessoa(p), &x, &y);
         inserirCruzSVG(svg, x, y, "red");
     } else modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
 
     removerHash(habitantes, cpf);
+
+    free(p);
 }
 
 void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash habitantes, hash quadras, estatistica e, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
     if (getMoradorPessoa(p) == 1){
-        endereco endAntigo = buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p));
+        char* cepAntigo = getCepPessoa(p);
+        quadra qAntiga = buscarHash(quadras, cepAntigo);
+        endereco endAntigo = buscarEndereco(qAntiga, getFacePessoa(p), getNumeroPessoa(p));
 
-        if (endAntigo != NULL) removerMoradorEndereco(cpf, endAntigo);
+        if (endAntigo != NULL){
+            removerMoradorEndereco(cpf, endAntigo);
+            atualizarHash(quadras, qAntiga, cepAntigo);
+        }
+
+        free(qAntiga);
     } else{
         modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), 1);
         modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
@@ -154,14 +178,19 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
         setMoradorPessoa(p, 1);
     }
 
-    endereco endNovo = buscarEndereco(buscarHash(quadras, cep), lado, numero);
+    quadra qNova = buscarHash(quadras, cep);
+    endereco endNovo = buscarEndereco(qNova, lado, numero);
 
     adicionarMoradorEndereco(cpf, endNovo);
+    atualizarHash(quadras, qNova, cep);
 
     setCepPessoa(p, cep);
     setFacePessoa(p, lado);
     setNumeroPessoa(p, numero);
     setComplementoPessoa(p, complemento);
+
+    atualizarHash(habitantes, p, cpf); 
+    free(p);
 
     double x, y;
 
@@ -181,12 +210,23 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
     printarDadosPessoa(txt, p);
     printarEnderecoPessoa(txt, p);
 
+    char* cepAntigo = getCepPessoa(p);
+    quadra q = buscarHash(quadras, cepAntigo);
+
     double x, y;
 
-    getCoordenadasEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p), &x, &y);
+    getCoordenadasEndereco(q, getFacePessoa(p), getNumeroPessoa(p), &x, &y);
 
-    removerMoradorEndereco(cpf, buscarEndereco(buscarHash(quadras, getCepPessoa(p)), getFacePessoa(p), getNumeroPessoa(p)));
+    endereco end = buscarEndereco(q, getFacePessoa(p), getNumeroPessoa(p));
+
+    removerMoradorEndereco(cpf, end);
+    
+    atualizarHash(quadras, q, cepAntigo);   
+    free(q);
+
     setMoradorPessoa(p, 0);
+    atualizarHash(habitantes, p, cpf);
+    free(p);
 
     inserirCirculoSVG(svg, x, y, 2.5, "black", "black");
 }
