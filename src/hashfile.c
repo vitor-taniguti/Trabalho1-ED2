@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashfile.h"
+#include "quadra.h"
 
 #define tamanho_bloco 2048
 #define maximo_diretorio 1024
@@ -141,7 +142,8 @@ hash criarHash(char* nomeArquivo){
 
     ha->profundidadeGlobal = 1;
 
-    BucketIndice bVazio = {1, 0, {{0}}};
+    BucketIndice bVazio;
+    memset(&bVazio, 0, sizeof(BucketIndice));
     
     fseek(ha->arquivoHf, ha->offsetBuckets, SEEK_SET);
     long offsetB0 = ftell(ha->arquivoHf);
@@ -155,7 +157,7 @@ hash criarHash(char* nomeArquivo){
     ha->diretorio[1] = offsetB1;
 
     salvarCabecalhoEDiretorio(ha);
-    gerarDumpHfd(ha);
+    // gerarDumpHfd(ha);
 
     return (hash) ha;
 }
@@ -176,6 +178,7 @@ void inserirHash(hash h, elemento e, char* chave){
     fwrite(e, tamanho, 1, ha->arquivoHf); 
 
     EntradaIndice novaEntrada;
+    memset(&novaEntrada, 0, sizeof(EntradaIndice));
     strncpy(novaEntrada.chave, chave, 19);
     novaEntrada.chave[19] = '\0';
     novaEntrada.offsetDados = offsetDosDados;
@@ -184,11 +187,15 @@ void inserirHash(hash h, elemento e, char* chave){
         b.registros[b.quantidade++] = novaEntrada;
         fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
         fwrite(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
-        gerarDumpHfd(ha);
+        // gerarDumpHfd(ha);
         return;
     }
 
-    BucketIndice novoB = {b.profundidadeLocal + 1, 0, {{0}}};
+    BucketIndice novoB;
+    memset(&novoB, 0, sizeof(BucketIndice));
+    novoB.profundidadeLocal = b.profundidadeLocal + 1;
+    novoB.quantidade = 0;
+    
     b.profundidadeLocal += 1;
 
     if (b.profundidadeLocal > ha->profundidadeGlobal){
@@ -230,7 +237,7 @@ void inserirHash(hash h, elemento e, char* chave){
     fwrite(&novoB, sizeof(BucketIndice), 1, ha->arquivoHf);
 
     salvarCabecalhoEDiretorio(ha);
-    gerarDumpHfd(ha);
+    // gerarDumpHfd(ha);
 }
 
 elemento buscarHash(hash h, char* chave){
@@ -272,7 +279,7 @@ void removerHash(hash h, char* chave){
 
             fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
             fwrite(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
-            gerarDumpHfd(ha);
+            // gerarDumpHfd(ha);
             return;
         }
     }
@@ -323,4 +330,55 @@ void liberarHash(hash h){
     }
 
     free(ha);
+}
+
+void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQuadra tq) {
+    if (h == NULL) return;
+    
+    HashDinamico *ha = (HashDinamico*) h;
+    int tamanhoDiretorio = 1 << ha->profundidadeGlobal;
+    BucketIndice b;
+    
+
+    long offsetsVisitados[10000]; 
+    int numVisitados = 0;
+
+    int totalQuadrasDesenhadas = 0;
+
+    for (size_t i = 0; i < tamanhoDiretorio; i++) {
+        long offsetAtual = ha->diretorio[i];
+
+        int jaLido = 0;
+        for (int v = 0; v < numVisitados; v++) {
+            if (offsetsVisitados[v] == offsetAtual) {
+                jaLido = 1;
+                break;
+            }
+        }
+        if (jaLido) continue;
+
+        offsetsVisitados[numVisitados++] = offsetAtual;
+
+        fseek(ha->arquivoHf, offsetAtual, SEEK_SET);
+        fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
+
+        for (size_t j = 0; j < b.quantidade; j++) {
+            int tamanho = getTamanhoElemento(b.registros[j].chave);
+            elemento e = malloc(tamanho);
+            
+            fseek(ha->arquivoHf, b.registros[j].offsetDados, SEEK_SET);
+            fread(e, tamanho, 1, ha->arquivoHf);
+
+            processar(svgQry, getXQuadra(e), getYQuadra(e), getWQuadra(e), getHQuadra(e), getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
+            
+            totalQuadrasDesenhadas++;
+            free(e);
+        }
+    }
+}
+
+void imprimirDumpHash(hash h) {
+    if (h != NULL) {
+        gerarDumpHfd((HashDinamico*) h);
+    }
 }

@@ -266,7 +266,7 @@ static void processarLinha(char* linha, char* comando, hash habitantes, hash qua
     } else printf("Comando do qry inválido!\n");
 }
 
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, estatistica e){
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, tipoQuadra tq, estatistica e){
     if (qry == NULL){
         printf("O arquivo qry não foi aberto!\n");
         exit(1);
@@ -286,4 +286,6 @@ void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash 
 
         processarLinha(linha, comando, habitantes, quadras, e, txt, svg);
     }
+
+    percorrerHash(quadras, svg, inserirRetanguloSVG, tq);
 }

@@ -18,9 +18,13 @@ static void processarLinha(char* linha, char* comando, hash habitantes, estatist
     
     if (strcmp(comando, "p") == 0){
         sscanf(linha, "%1s %14s %s %s %c %10s", tipo, cpf, nome, sobrenome, &sexo, nascimento);
-        inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
+
+        pessoa p = criarPessoa(cpf, nome, sobrenome, sexo, nascimento);
+        inserirHash(habitantes, p, cpf);
 
         modificarEstatistica(e, 3, 1);
+
+        free(p);
     } else if (strcmp(comando, "m") == 0){
         sscanf(linha, "%1s %14s %9s %c %d %9s", tipo, cpf, cep, &face, &numero, complemento);
 

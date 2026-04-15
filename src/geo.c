@@ -24,10 +24,13 @@ static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra 
         
     } else if (strcmp(comando, "q") == 0){
         sscanf(linha, "%2s %19s %lf %lf %lf %lf", tipo, cep, &x, &y, &w, &h);
-        
-        inserirHash(quadras, criarQuadra(cep, x, y, w, h), cep);
+
+        quadra q = criarQuadra(cep, x, y, w, h);
+        inserirHash(quadras, q, cep);
+
         inserirRetanguloSVG(svg, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
         
+        free(q);
     } else {
         printf("Comando do geo inválido: %s\n", comando);
     }

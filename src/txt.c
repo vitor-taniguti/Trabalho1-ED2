@@ -40,6 +40,6 @@ void printarCenso(arquivo txt, int nHab, int nMor, double morPhab, int nHom, int
     fprintf(txt, "Porcentagem de moradores homens - %.2lf %%\n", pMorHom);
     fprintf(txt, "Porcentagem de moradoras mulheres - %.2lf %%\n", pMorMul);
     fprintf(txt, "Número de sem-tetos - %d\n", nST);
-    fprintf(txt, "Porcentagem de homens sem-teto - %.2lf\n", pSTHom);
-    fprintf(txt, "Porcentagem de mulheres sem-teto - %.2lf\n\n", pSTMul);
+    fprintf(txt, "Porcentagem de homens sem-teto - %.2lf %%\n", pSTHom);
+    fprintf(txt, "Porcentagem de mulheres sem-teto - %.2lf %%\n\n", pSTMul);
 }

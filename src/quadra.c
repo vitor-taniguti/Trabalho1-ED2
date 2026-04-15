@@ -27,7 +27,7 @@ typedef struct{
 } Quadra;
 
 quadra criarQuadra(char* cep, double x, double y, double w, double h){
-    Quadra* q = (Quadra*) malloc(sizeof(Quadra));
+    Quadra* q = (Quadra*) calloc(1, sizeof(Quadra));
 
     strncpy(q->cep, cep, 19);
     q->cep[19] = '\0';

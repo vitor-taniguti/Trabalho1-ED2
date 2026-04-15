@@ -1,6 +1,7 @@
 #ifndef HASHFILE_H
 #define HASHFILE_H
 
+#include "quadra.h"
 #include <stdio.h>
 
 /*
@@ -13,6 +14,7 @@ Além disso, cria um dump (arquivo hfd) reportando suas modificações.
 typedef void* hash;
 typedef void* elemento;
 typedef FILE* arquivo;
+typedef void (*FuncaoProcessamento)(arquivo svgQry, double x, double y, double w, double h, char* corP, char* corB);
 
 /// @brief Cria um hashfile extensível (dinâmico)
 /// @param nomeArquivo Nome do arquivo do hashfile
@@ -45,5 +47,16 @@ void atualizarHash(hash h, elemento e, char* chave);
 /// @brief Libera os arquivos do disco do hashfile
 /// @param h Hashfile que será liberado
 void liberarHash(hash h);
+
+/// @brief Percorre o hash e realiza a função passada no loop
+/// @param h Hash que será percorrido
+/// @param svgQry Arquivo onde será inserido as quadras
+/// @param processar Função que será executada
+/// @param tq Tipo da quadra que será inserida
+void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQuadra tq);
+
+/// @brief Imprime o dump do hash file (.hfd)
+/// @param h Hash file que o dump será impresso
+void imprimirDumpHash(hash h);
 
 #endif

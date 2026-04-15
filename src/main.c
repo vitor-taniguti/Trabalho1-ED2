@@ -88,8 +88,15 @@ int main(int argc, char *argv[]) {
     arquivo svgGeo = NULL;
     arquivo svgQry = NULL;
 
-    hash habitantes = criarHash("habitantes");
-    hash quadras = criarHash("quadras");
+    char pathHabitantes[PATH_LEN + FILE_NAME_LEN];
+    char pathQuadras[PATH_LEN + FILE_NAME_LEN];
+    char* prefixoNome = hasQry ? baseNomeCombinado : baseNomeGeo;
+
+    snprintf(pathHabitantes, sizeof(pathHabitantes), "%s/%s-habitantes", dirSaida, prefixoNome);
+    snprintf(pathQuadras, sizeof(pathQuadras), "%s/%s-quadras", dirSaida, prefixoNome);
+
+    hash habitantes = criarHash(pathHabitantes);
+    hash quadras = criarHash(pathQuadras);
     tipoQuadra tq = criarTipoQuadra();
     estatistica e = criarEstatistica();
 
@@ -109,9 +116,12 @@ int main(int argc, char *argv[]) {
         abrirArquivoTxt(&txt, arquivoSaidaTxt);
         abrirArquivoSvg(&svgQry, arquivoSaidaSvgQry);
         inicializarSVG(svgQry);
-        lerArquivoQry(qry, txt, svgQry, habitantes, quadras, e);
+        lerArquivoQry(qry, txt, svgQry, habitantes, quadras, tq, e);
         fecharSVG(svgQry);
     }
+
+    imprimirDumpHash(habitantes);
+    imprimirDumpHash(quadras);
 
     if (geo) fclose(geo);
     if (pm) fclose(pm);

@@ -89,6 +89,8 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
 /// @param svg Aquivo com extensao .svg que será usado
 /// @param habitantes Hashfile onde os habitantes estão armazenados
 /// @param quadras Hashfile onde as quadras estão armazenadas
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, estatistica e);
+/// @param tq Tipo da quadra que será inserido no svg
+/// @param e Estatística dos habitantes de Bitnópolis
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash quadras, tipoQuadra tq, estatistica e);
 
 #endif

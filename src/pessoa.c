@@ -10,7 +10,7 @@ typedef struct{
 } Pessoa;
 
 pessoa criarPessoa(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento){
-    Pessoa* p = (Pessoa*) malloc(sizeof(Pessoa));
+    Pessoa* p = (Pessoa*) calloc(1, sizeof(Pessoa));
 
     if (!p){
         printf("Falha na alocação de memória para criar uma pessoa!\n");
