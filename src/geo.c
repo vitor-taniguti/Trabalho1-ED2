@@ -12,7 +12,7 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     }
 }
 
-void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq, arquivo svg){
+static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq, arquivo svg){
     char espessura[10] = {0}, corP[20] = {0}, corB[20] = {0}, tipo[3] = {0}, cep[20] = {0};
     double x = 0, y = 0, w = 0, h = 0;
     

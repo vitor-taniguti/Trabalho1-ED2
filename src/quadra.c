@@ -85,7 +85,7 @@ int getQuantidadeEnderecosFace(face f){
 
 char* getCpfEndereco(endereco e, int indice){
     Endereco* end = (Endereco*) e;
-    return &(end->cpfMoradores[indice]);
+    return end->cpfMoradores[indice];
 }
 
 int getQuantidadeMoradoresEndereco(endereco e){
@@ -117,7 +117,7 @@ endereco buscarEndereco(quadra q, char face, int numero){
     }
 
     for (int i = 0; i < qua->faces[faceInt].quantidadeEnderecos; i++){
-        if (qua->faces[face].enderecos[i].numero == numero) return &(qua->faces[face].enderecos[i]);
+        if (qua->faces[faceInt].enderecos[i].numero == numero) return &(qua->faces[face].enderecos[i]);
     }
 
     return NULL;

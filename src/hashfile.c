@@ -89,7 +89,7 @@ void gerarDumpHfd(HashDinamico *ha){
 
     fprintf(ha->arquivoHfd, "* Dump table\n");
     int tamanhoDiretorio = 1 << ha->profundidadeGlobal;
-    for (int i = 0; i < tamanhoDiretorio; i++){
+    for (size_t i = 0; i < tamanhoDiretorio; i++){
         fprintf(ha->arquivoHfd, "[%d] %ld\n", i, ha->diretorio[i]);
     }
 
@@ -97,7 +97,7 @@ void gerarDumpHfd(HashDinamico *ha){
     BucketIndice b;
     int indiceBloco = 0;
     
-    for (int i = 0; i < tamanhoDiretorio; i++){
+    for (size_t i = 0; i < tamanhoDiretorio; i++){
         if (i > 0 && ha->diretorio[i] == ha->diretorio[i-1]) continue;
 
         fseek(ha->arquivoHf, ha->diretorio[i], SEEK_SET);
@@ -105,7 +105,7 @@ void gerarDumpHfd(HashDinamico *ha){
 
         fprintf(ha->arquivoHfd, "BLOCO: %d\n", indiceBloco++);
         
-        for (int j = 0; j < max_registros_por_bloco; j++){
+        for (size_t j = 0; j < max_registros_por_bloco; j++){
             if (j < b.quantidade){
                 fprintf(ha->arquivoHfd, "1 | 0000000000 | %d______%s | 0.000000 |\n", j, b.registros[j].chave);
             } else{
@@ -141,7 +141,7 @@ hash criarHash(char* nomeArquivo){
 
     ha->profundidadeGlobal = 1;
 
-    BucketIndice bVazio ={1, 0,{{0}}};
+    BucketIndice bVazio = {1, 0, {{0}}};
     
     fseek(ha->arquivoHf, ha->offsetBuckets, SEEK_SET);
     long offsetB0 = ftell(ha->arquivoHf);
@@ -188,12 +188,12 @@ void inserirHash(hash h, elemento e, char* chave){
         return;
     }
 
-    BucketIndice novoB ={b.profundidadeLocal + 1, 0,{{0}}};
+    BucketIndice novoB = {b.profundidadeLocal + 1, 0, {{0}}};
     b.profundidadeLocal += 1;
 
     if (b.profundidadeLocal > ha->profundidadeGlobal){
         int tamanho_atual = 1 << ha->profundidadeGlobal;
-        for (int i = 0; i < tamanho_atual; i++) ha->diretorio[i + tamanho_atual] = ha->diretorio[i];
+        for (size_t i = 0; i < tamanho_atual; i++) ha->diretorio[i + tamanho_atual] = ha->diretorio[i];
         ha->profundidadeGlobal++;
     }
 
@@ -208,7 +208,7 @@ void inserirHash(hash h, elemento e, char* chave){
     ha->numBuckets++;
 
     int bit_verificacao = 1 << (b.profundidadeLocal - 1);
-    for (int i = 0; i < max_registros_por_bloco + 1; i++){
+    for (size_t i = 0; i < max_registros_por_bloco + 1; i++){
         int hashChave = funcaoHash(todas[i].chave, b.profundidadeLocal);
         if ((hashChave & bit_verificacao) == 0) b.registros[b.quantidade++] = todas[i];
         else novoB.registros[novoB.quantidade++] = todas[i];
@@ -218,7 +218,7 @@ void inserirHash(hash h, elemento e, char* chave){
     int mascara_nova = (1 << b.profundidadeLocal) - 1;
     int hash_novo_bucket = funcaoHash(novoB.registros[0].chave, b.profundidadeLocal);
 
-    for (int i = 0; i < numEntradas; i++){
+    for (size_t i = 0; i < numEntradas; i++){
         if (ha->diretorio[i] == offsetBucket && (i & mascara_nova) == hash_novo_bucket){
             ha->diretorio[i] = novoOffset;
         }
@@ -243,7 +243,7 @@ elemento buscarHash(hash h, char* chave){
     fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
     fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-    for (int i = 0; i < b.quantidade; i++){
+    for (size_t i = 0; i < b.quantidade; i++){
         if (strcmp(b.registros[i].chave, chave) == 0){
             int tamanho = getTamanhoElemento(chave);
             elemento e = malloc(tamanho);
@@ -265,7 +265,7 @@ void removerHash(hash h, char* chave){
     fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
     fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-    for (int i = 0; i < b.quantidade; i++){
+    for (size_t i = 0; i < b.quantidade; i++){
         if (strcmp(b.registros[i].chave, chave) == 0){
             b.registros[i] = b.registros[b.quantidade - 1];
             b.quantidade--;
@@ -288,7 +288,7 @@ void atualizarHash(hash h, elemento e, char* chave){
     fseek(ha->arquivoHf, offsetBucket, SEEK_SET);
     fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-    for (int i = 0; i < b.quantidade; i++){
+    for (size_t i = 0; i < b.quantidade; i++){
         if (strcmp(b.registros[i].chave, chave) == 0){
             long offsetDosDados = b.registros[i].offsetDados;
             int tamanho = getTamanhoElemento(chave);

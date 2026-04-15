@@ -184,6 +184,8 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
     adicionarMoradorEndereco(cpf, endNovo);
     atualizarHash(quadras, qNova, cep);
 
+    free(qNova);
+
     setCepPessoa(p, cep);
     setFacePessoa(p, lado);
     setNumeroPessoa(p, numero);
@@ -231,7 +233,7 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
     inserirCirculoSVG(svg, x, y, 2.5, "black", "black");
 }
 
-void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
+static void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
     char cep[10] = {0}, complemento[10] = {0}, lado = ' ', tipo[2] = {0};
     int numero = 0;
@@ -256,7 +258,7 @@ void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, e
         sscanf(linha, "%3s %14s", tipo, cpf);
         rip(cpf, habitantes, quadras, e, txt, svg);
     } else if (strcmp(comando, "mud") == 0){
-        sscanf(linha, "%3s %14s %9s %c %9s", tipo, cpf, cep, lado, complemento);
+        sscanf(linha, "%3s %14s %9s %c %d %9s", tipo, cpf, cep, &lado, &numero, complemento);
         mud(cpf, cep, lado, numero, complemento, habitantes, quadras, e, svg);
     } else if (strcmp(comando, "dspj") == 0){
         sscanf(linha, "%4s %14s", tipo, cpf);

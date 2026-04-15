@@ -10,6 +10,7 @@
 #include "txt.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> 
 
 #define PATH_LEN 512
 #define FILE_NAME_LEN 256
@@ -54,7 +55,6 @@ int main(int argc, char *argv[]) {
     snprintf(fullPathGeo, sizeof(fullPathGeo), "%s/%s", dirEntrada, nomeArquivoGeo);
 
     char fullPathPm[PATH_LEN + FILE_NAME_LEN];
-    snprintf(fullPathPm, sizeof(fullPathPm), "%s/%s", dirEntrada, nomeArquivoPm);
     if (hasPm) {
         snprintf(fullPathPm, sizeof(fullPathPm), "%s/%s", dirEntrada, nomeArquivoPm);
     }   

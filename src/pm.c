@@ -11,7 +11,7 @@ void abrirArquivoPm(arquivo *pm, char *caminhoPm){
     }
 }
 
-void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
+static void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
     char cep[10] = {0}, complemento[10] = {0}, face = ' ', tipo[2] = {0};
     int numero = 0;
