@@ -24,7 +24,7 @@ void printarDadosPessoa(arquivo txt, pessoa p){
 void printarEnderecoPessoa(arquivo txt, pessoa p){
     fprintf(txt, "Cep - %s\n", getCepPessoa(p));
     fprintf(txt, "Face - %c\n", getFacePessoa(p));
-    fprintf(txt, "Número - %c\n", getNumeroPessoa(p));
+    fprintf(txt, "Número - %d\n", getNumeroPessoa(p));
     fprintf(txt, "Complemento - %s\n\n", getComplementoPessoa(p));
 }
 

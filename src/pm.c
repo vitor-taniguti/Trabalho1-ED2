@@ -35,6 +35,7 @@ static void processarLinha(char* linha, char* comando, hash habitantes, estatist
             setFacePessoa(p, face);
             setNumeroPessoa(p, numero);
             setComplementoPessoa(p, complemento);
+            setMoradorPessoa(p, 1);
 
             atualizarHash(habitantes, p, cpf);
 
