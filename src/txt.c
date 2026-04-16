@@ -9,7 +9,7 @@ void abrirArquivoTxt(arquivo* saida, char* caminhoTxt){
 }
 
 void printarLinhaComandoTxt(arquivo txt, char* linhaComando){
-    fprintf(txt, "[*] %s\n\n", linhaComando);
+    fprintf(txt, "[*] %s\n", linhaComando);
 }
 
 void printarDadosPessoa(arquivo txt, pessoa p){

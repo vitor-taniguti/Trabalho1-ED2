@@ -90,7 +90,8 @@ char* getCpfEndereco(endereco e, int indice){
 
 int getQuantidadeMoradoresEndereco(endereco e){
     Endereco* end = (Endereco*) e;
-    return end->quantidadeMoradores;
+    if (end != NULL) return end->quantidadeMoradores;
+    else printf("Endereço não encontrado para pegar quantidade de moradores!\n");
 }
 
 endereco buscarEndereco(quadra q, char face, int numero){
@@ -140,6 +141,12 @@ void adicionarMoradorEndereco(char* cpf, endereco e){
 
 void removerMoradorEndereco(char* cpf, endereco e){
     Endereco* end = (Endereco*) e;
+
+    if (end == NULL){
+        printf("Endereço não encontrado para remover morador!\n");
+        return;
+    }
+
     int qtdMor = getQuantidadeMoradoresEndereco(end), i = 0;
 
     while ((strcmp(end->cpfMoradores[i], cpf) != 0) && i < qtdMor) i++;

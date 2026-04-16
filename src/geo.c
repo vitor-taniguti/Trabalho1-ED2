@@ -29,6 +29,7 @@ static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra 
         inserirHash(quadras, q, cep);
 
         inserirRetanguloSVG(svg, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
+        inserirTextoSVG(svg, cep, x+5, y+15, 'i');
         
         free(q);
     } else {

@@ -41,9 +41,13 @@ void inserirRetanguloSVG(arquivo saida, double x, double y, double w, double h, 
 /// @param corB Cor de borda do círculo
 void inserirCirculoSVG(arquivo saida, double x, double y, double raio, char* corP, char* corB);
 
+
 /// @brief Adiciona a tag text do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
 /// @param texto Texto que será escrito
+/// @param x Coordenada X do texto
+/// @param y Coordenada Y do texto
+/// @param ancora Âncora do texto (i - Início, m - Meio, f - Fim)
 void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora);
 
 /// @brief Adiciona um formato de X no arquivo SVG
