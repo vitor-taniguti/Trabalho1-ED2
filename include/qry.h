@@ -27,10 +27,9 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg);
 
 /// @brief Pega a quantidade de moradores em determinada quadra
 /// @param cep Identificador da quadra
-/// @param habitantes Hash file dos habitantes 
 /// @param quadras Hash file das quadras
 /// @param svg Arquivo svg
-void pq(char* cep, hash habitantes, hash quadras, arquivo svg);
+void pq(char* cep, hash quadras, arquivo svg);
 
 /// @brief Calcula e printa o censo de Bitnópolis no txt
 /// @param e Estatística responsável pelo censo

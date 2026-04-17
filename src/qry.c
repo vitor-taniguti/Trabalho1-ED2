@@ -46,7 +46,7 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
     free(q);
 }
 
-void pq(char* cep, hash habitantes, hash quadras, arquivo svg){
+void pq(char* cep, hash quadras, arquivo svg){
     int faces[4] = {0, 0, 0, 0}, total = 0;
     char stringFaces[4][5], stringTotal[5];
 
@@ -230,7 +230,7 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
     atualizarHash(habitantes, p, cpf);
     free(p);
 
-    inserirCirculoSVG(svg, x, y, 2.5, "black", "black");
+    inserirCirculoSVG(svg, x, y, 5, "black", "black");
 }
 
 static void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
@@ -245,7 +245,7 @@ static void processarLinha(char* linha, char* comando, hash habitantes, hash qua
         rq(cep, habitantes, quadras, txt, svg);
     } else if (strcmp(comando, "pq") == 0){
         sscanf(linha, "%2s %9s", tipo, cep);
-        pq(cep, habitantes, quadras, svg);
+        pq(cep, quadras, svg);
     } else if (strcmp(comando, "censo") == 0){
         censo(e, txt);
     } else if (strcmp(comando, "h?") == 0){
@@ -272,6 +272,8 @@ void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash 
         exit(1);
     }
 
+    percorrerHash(quadras, svg, inserirRetanguloSVG, tq);
+
     char linha[256], comando[6];
 
     while (fgets(linha, sizeof(linha), qry)){
@@ -286,6 +288,4 @@ void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, hash habitantes, hash 
 
         processarLinha(linha, comando, habitantes, quadras, e, txt, svg);
     }
-
-    percorrerHash(quadras, svg, inserirRetanguloSVG, tq);
 }
