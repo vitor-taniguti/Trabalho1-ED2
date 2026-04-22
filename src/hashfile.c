@@ -208,19 +208,43 @@ void inserirHash(hash h, elemento e, char* chave){
     for(int i = 0; i < max_registros_por_bloco; i++) todas[i] = b.registros[i];
     todas[max_registros_por_bloco] = novaEntrada;
 
-    b.quantidade = 0;
+    int bits_usados = b.profundidadeLocal;
+    BucketIndice novoB;
+    
+    while (1){
+        memset(&novoB, 0, sizeof(BucketIndice));
+        b.profundidadeLocal = bits_usados + 1;
+        novoB.profundidadeLocal = bits_usados + 1;
+
+        if (b.profundidadeLocal > ha->profundidadeGlobal){
+            int tamanho_atual = 1 << ha->profundidadeGlobal;
+
+            if (ha->profundidadeGlobal >= 10) { 
+                printf("Erro Fatal: Diretorio excedeu o limite maximo!\n");
+                break;
+            }
+            
+            for (size_t i = 0; i < tamanho_atual; i++) ha->diretorio[i + tamanho_atual] = ha->diretorio[i];
+            ha->profundidadeGlobal++;
+        }
+
+        b.quantidade = 0;
+        novoB.quantidade = 0;
+        int bit_verificacao = 1 << bits_usados;
+        for (size_t i = 0; i < max_registros_por_bloco + 1; i++){
+            int hashChave = funcaoHash(todas[i].chave, b.profundidadeLocal);
+            if ((hashChave & bit_verificacao) == 0) b.registros[b.quantidade++] = todas[i];
+            else novoB.registros[novoB.quantidade++] = todas[i];
+        }
+
+        if (b.quantidade <= max_registros_por_bloco && novoB.quantidade <= max_registros_por_bloco) break; 
+        
+        bits_usados++;
+    }
 
     fseek(ha->arquivoHf, 0, SEEK_END);
     long novoOffset = ftell(ha->arquivoHf);
     ha->numBuckets++;
-
-    int bit_verificacao = 1 << (b.profundidadeLocal - 1);
-    for (size_t i = 0; i < max_registros_por_bloco + 1; i++){
-        int hashChave = funcaoHash(todas[i].chave, b.profundidadeLocal);
-        if ((hashChave & bit_verificacao) == 0) b.registros[b.quantidade++] = todas[i];
-        else novoB.registros[novoB.quantidade++] = todas[i];
-    }
-
     int numEntradas = 1 << ha->profundidadeGlobal;
     int mascara_nova = (1 << b.profundidadeLocal) - 1;
     int hash_novo_bucket = funcaoHash(novoB.registros[0].chave, b.profundidadeLocal);
@@ -237,7 +261,6 @@ void inserirHash(hash h, elemento e, char* chave){
     fwrite(&novoB, sizeof(BucketIndice), 1, ha->arquivoHf);
 
     salvarCabecalhoEDiretorio(ha);
-    // gerarDumpHfd(ha);
 }
 
 elemento buscarHash(hash h, char* chave){
@@ -332,7 +355,7 @@ void liberarHash(hash h){
     free(ha);
 }
 
-void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQuadra tq) {
+void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQuadra tq){
     if (h == NULL) return;
     
     HashDinamico *ha = (HashDinamico*) h;
@@ -345,12 +368,12 @@ void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQu
 
     int totalQuadrasDesenhadas = 0;
 
-    for (size_t i = 0; i < tamanhoDiretorio; i++) {
+    for (size_t i = 0; i < tamanhoDiretorio; i++){
         long offsetAtual = ha->diretorio[i];
 
         int jaLido = 0;
-        for (int v = 0; v < numVisitados; v++) {
-            if (offsetsVisitados[v] == offsetAtual) {
+        for (int v = 0; v < numVisitados; v++){
+            if (offsetsVisitados[v] == offsetAtual){
                 jaLido = 1;
                 break;
             }
@@ -362,7 +385,7 @@ void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQu
         fseek(ha->arquivoHf, offsetAtual, SEEK_SET);
         fread(&b, sizeof(BucketIndice), 1, ha->arquivoHf);
 
-        for (size_t j = 0; j < b.quantidade; j++) {
+        for (size_t j = 0; j < b.quantidade; j++){
             int tamanho = getTamanhoElemento(b.registros[j].chave);
             elemento e = malloc(tamanho);
             
@@ -377,8 +400,8 @@ void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQu
     }
 }
 
-void imprimirDumpHash(hash h) {
-    if (h != NULL) {
+void imprimirDumpHash(hash h){
+    if (h != NULL){
         gerarDumpHfd((HashDinamico*) h);
     }
 }

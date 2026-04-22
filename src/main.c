@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 
     if (hasPm){
         abrirArquivoPm(&pm, fullPathPm);
-        lerArquivoPm(pm, habitantes, e);
+        lerArquivoPm(pm, habitantes, quadras, e);
     }
 
     if (hasQry) {

@@ -21,8 +21,10 @@ typedef FILE* arquivo;
 void abrirArquivoPm(arquivo* saida, char* caminhoPm);
 
 /// @brief Lê o arquivo com extensão .pm e insere os objetos no arquivo correspondente
-/// @param geo Arquivo que será lido
-/// @param tabelaPm Arquivo da tabela hash reponsável para guardar os objetos lidos
-void lerArquivoPm(arquivo pm, hash habitantes, estatistica e);
+/// @param pm Arquivo com extensão .pm que será lido
+/// @param habitantes Hash dos habitantes
+/// @param quadras Hash da quadras
+/// @param e Estatística que será modificado ao ler o arquivo
+void lerArquivoPm(arquivo pm, hash habitantes, hash quadras, estatistica e);
 
 #endif

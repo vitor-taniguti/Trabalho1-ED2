@@ -188,15 +188,4 @@
 	<rect x="500.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
 	<text x="505.0000" y="965.0000" text-anchor="start">b010.4</text>
 	<rect x="635.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="640.0000" y="965.0000" text-anchor="start">b010.5</text>
-	<rect x="770.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="775.0000" y="965.0000" text-anchor="start">b010.6</text>
-	<rect x="905.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="910.0000" y="965.0000" text-anchor="start">b010.7</text>
-	<rect x="1040.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="1045.0000" y="965.0000" text-anchor="start">b010.8</text>
-	<rect x="1175.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="1180.0000" y="965.0000" text-anchor="start">b010.9</text>
-	<rect x="1310.0000" y="950.0000" width="120.0000" height="80.0000" fill="steelblue" stroke="MistyRose" />
-	<text x="1315.0000" y="965.0000" text-anchor="start">b010.10</text>
-</svg>
+	<text x

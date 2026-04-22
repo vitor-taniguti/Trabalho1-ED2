@@ -22,6 +22,10 @@ O identificador único da quadra é uma string chamado "cep".
 /// @return A quadra criada com os atributos especificados
 quadra criarQuadra(char* cep, double x, double y, double w, double h);
 
+/// @brief Converte a face (char) para um inteiro (0-N, 1-S, 2-L, 3-O)
+/// @param face A face que será convertida
+int converterFace(char f);
+
 /// @brief Pega o tamanho da memória alocada para a struct quadra
 /// @return O tamanho da memória alocada para a struct quadra
 int getTamanhoQuadra();
@@ -63,6 +67,10 @@ endereco getEnderecoFace(face f, int indice);
 /// @return Quantidade de enderecos da face 
 int getQuantidadeEnderecosFace(face f);
 
+/// @brief Aumenta a quantidade de endereços na face especificada
+/// @param f Ponteiro para face
+void incrementarQuantidadeEnderecosFace(face f);
+
 /// @brief Pega o CPF do morador do índice e do endereço especificado
 /// @param e Ponteiro para o endereco do morador
 /// @param indice Índice do cpf que será pego
@@ -73,6 +81,11 @@ char* getCpfEndereco(endereco e, int indice);
 /// @param e Ponteiro para o endereço
 /// @return A quantidade d emoradores no endereço especificado
 int getQuantidadeMoradoresEndereco(endereco e);
+
+/// @brief Define o número do endereço solicitado
+/// @param e Endereço que o número será definido
+/// @param numero Número do endereço que será definido
+void setNumeroEndereco(endereco e, int numero);
 
 /// @brief Busca o endereço de uma quadra, face e número especificados
 /// @param q Quadra do endereço

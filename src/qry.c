@@ -131,6 +131,11 @@ void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, h
 void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
+    if (p == NULL){
+        printf("Habitante não encontrado para falecer!\n");
+        return;
+    }
+
     fprintf(txt, "Dados do habitante falecido:\n\n");
     printarDadosPessoa(txt, p);
 
@@ -222,11 +227,11 @@ void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, 
     endereco end = buscarEndereco(q, getFacePessoa(p), getNumeroPessoa(p));
 
     removerMoradorEndereco(cpf, end);
+    setMoradorPessoa(p, 0);
     
     atualizarHash(quadras, q, cepAntigo);   
     free(q);
 
-    setMoradorPessoa(p, 0);
     atualizarHash(habitantes, p, cpf);
     free(p);
 

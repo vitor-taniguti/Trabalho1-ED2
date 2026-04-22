@@ -11,9 +11,9 @@ void abrirArquivoPm(arquivo *pm, char *caminhoPm){
     }
 }
 
-static void processarLinha(char* linha, char* comando, hash habitantes, estatistica e){
+static void processarLinha(char* linha, char* comando, hash habitantes, hash quadras, estatistica e){
     char cpf[15] = {0}, nome[50] = {0}, sobrenome[50] = {0}, sexo = ' ', nascimento[11] = {0};
-    char cep[10] = {0}, complemento[10] = {0}, face = ' ', tipo[2] = {0};
+    char cep[10] = {0}, complemento[10] = {0}, lado = ' ', tipo[2] = {0};
     int numero = 0;
     
     if (strcmp(comando, "p") == 0){
@@ -26,28 +26,49 @@ static void processarLinha(char* linha, char* comando, hash habitantes, estatist
 
         free(p);
     } else if (strcmp(comando, "m") == 0){
-        sscanf(linha, "%1s %14s %9s %c %d %9s", tipo, cpf, cep, &face, &numero, complemento);
+        sscanf(linha, "%1s %14s %9s %c %d %9s", tipo, cpf, cep, &lado, &numero, complemento);
+
+        quadra q = buscarHash(quadras, cep);
+
+        if (q == NULL) printf("Quadra não encontrada!\n");
+
+        endereco end = buscarEndereco(q, lado, numero);
+
+        if (end == NULL){
+            face f = getFaceQuadra(q, converterFace(lado));
+            int qtdEndFaces = getQuantidadeEnderecosFace(f);
+            end = getEnderecoFace(f, qtdEndFaces);
+            
+            setNumeroEndereco(end, numero);
+            incrementarQuantidadeEnderecosFace(f);
+        }
+
+        adicionarMoradorEndereco(cpf, end);
+
+        atualizarHash(quadras, q, cep);
+
+        free(q);
 
         pessoa p = buscarHash(habitantes, cpf);
 
-        if (p != NULL) {
+        if (p != NULL){
             setCepPessoa(p, cep);
-            setFacePessoa(p, face);
+            setFacePessoa(p, lado);
             setNumeroPessoa(p, numero);
             setComplementoPessoa(p, complemento);
             setMoradorPessoa(p, 1);
 
             atualizarHash(habitantes, p, cpf);
 
-            modificarEstatistica(e, 1, 1);
-            modificarEstatistica(e, 3, -1);
+            modificarEstatistica(e, getSexoPessoa(p) == 'M' ? 1 : 2, 1);
+            modificarEstatistica(e, getSexoPessoa(p) == 'M' ? 3 : 4, -1);
 
             free(p); 
-        } else printf("Morador com CPF %s não encontrado.\n", cpf);
+        } else printf("Habitante com CPF %s não encontrado.\n", cpf);
     }
 }
 
-void lerArquivoPm(arquivo pm, hash habitantes, estatistica e){
+void lerArquivoPm(arquivo pm, hash habitantes, hash quadras, estatistica e){
     if (pm == NULL){
         printf("O arquivo pm não foi aberto!\n");
         exit(1);
@@ -65,6 +86,6 @@ void lerArquivoPm(arquivo pm, hash habitantes, estatistica e){
 
         comando[i] = '\0';
 
-        processarLinha(linha, comando, habitantes, e);
+        processarLinha(linha, comando, habitantes, quadras, e);
     }
 }

@@ -1,4 +1,5 @@
 #include "txt.h"
+#include "string.h"
 
 void abrirArquivoTxt(arquivo* saida, char* caminhoTxt){
     *saida = fopen(caminhoTxt, "w");
@@ -25,7 +26,11 @@ void printarEnderecoPessoa(arquivo txt, pessoa p){
     fprintf(txt, "Cep - %s\n", getCepPessoa(p));
     fprintf(txt, "Face - %c\n", getFacePessoa(p));
     fprintf(txt, "Número - %d\n", getNumeroPessoa(p));
-    fprintf(txt, "Complemento - %s\n\n", getComplementoPessoa(p));
+
+    char* complemento = getComplementoPessoa(p);
+
+    if (strcmp(complemento, "-") == 0) fprintf(txt, "Complemento - Sem complemento\n\n");
+    else fprintf(txt, "Complemento - %s\n\n", complemento);
 }
 
 void printarCenso(arquivo txt, int nHab, int nMor, double morPhab, int nHom, int nMul, double pHabHom, double pHabMul, double pMorHom, double pMorMul, int nST, double pSTHom, double pSTMul){

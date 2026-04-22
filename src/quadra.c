@@ -44,6 +44,23 @@ quadra criarQuadra(char* cep, double x, double y, double w, double h){
     return q;
 }
 
+int converterFace(char face){
+    switch (face){
+        case 'N': 
+            return 0;
+        case 'S':
+            return 1;
+        case 'L':
+            return 2;
+        case 'O':
+            return 3;
+        default:
+            printf("Lado inválido para converter!\n");
+    }
+
+    return -1;
+}
+
 int getTamanhoQuadra(){
     return sizeof(Quadra);
 }
@@ -83,6 +100,11 @@ int getQuantidadeEnderecosFace(face f){
     return fa->quantidadeEnderecos;
 }
 
+void incrementarQuantidadeEnderecosFace(face f){
+    Face* fa = (Face*) f;
+    fa->quantidadeEnderecos++;
+}
+
 char* getCpfEndereco(endereco e, int indice){
     Endereco* end = (Endereco*) e;
     return end->cpfMoradores[indice];
@@ -94,31 +116,18 @@ int getQuantidadeMoradoresEndereco(endereco e){
     else printf("Endereço não encontrado para pegar quantidade de moradores!\n");
 }
 
+void setNumeroEndereco(endereco e, int numero){
+    Endereco* end = (Endereco*) e;
+    end->numero = numero;
+}
+
 endereco buscarEndereco(quadra q, char face, int numero){
     Quadra* qua = (Quadra*) q;
     
-    int faceInt;
-
-    switch (face){
-        case 'N': 
-            faceInt = 0;
-            break;
-        case 'S':
-            faceInt = 1;
-            break;
-        case 'L':
-            faceInt = 2;
-            break;
-        case 'O':
-            faceInt = 3;
-            break;
-        default:
-            printf("Lado inválido ao buscar endereço\n");
-            break;
-    }
+    int faceInt = converterFace(face);
 
     for (int i = 0; i < qua->faces[faceInt].quantidadeEnderecos; i++){
-        if (qua->faces[faceInt].enderecos[i].numero == numero) return &(qua->faces[face].enderecos[i]);
+        if (qua->faces[faceInt].enderecos[i].numero == numero) return &(qua->faces[faceInt].enderecos[i]);
     }
 
     return NULL;
@@ -129,7 +138,7 @@ void adicionarMoradorEndereco(char* cpf, endereco e){
     int qtdMor = getQuantidadeMoradoresEndereco(end);
 
     if (qtdMor == maximo_pessoas_endereco){
-        printf("Máximo de morador por endereço atingido!\n");
+        printf("Máximo de moradores por endereço atingido!\n");
         return;
     }
 
@@ -152,12 +161,14 @@ void removerMoradorEndereco(char* cpf, endereco e){
     while ((strcmp(end->cpfMoradores[i], cpf) != 0) && i < qtdMor) i++;
 
     if (i == qtdMor){
-        printf("Morador no endereço não encontrado!\n");
+        printf("Morador com CPF %s no endereço não encontrado!\n", cpf);
         return;
     }
 
-    strncpy(end->cpfMoradores[i], end->cpfMoradores[qtdMor-1], 14);
-    end->cpfMoradores[i][14] = '\0';
+    if (i != qtdMor - 1) {
+        strncpy(end->cpfMoradores[i], end->cpfMoradores[qtdMor-1], 14);
+        end->cpfMoradores[i][14] = '\0';
+    }
 
     end->quantidadeMoradores--;
 }
