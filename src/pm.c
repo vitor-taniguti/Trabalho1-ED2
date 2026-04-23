@@ -30,8 +30,11 @@ static void processarLinha(char* linha, char* comando, hash habitantes, hash qua
 
         quadra q = buscarHash(quadras, cep);
 
-        if (q == NULL) printf("Quadra não encontrada!\n");
-
+        if (q == NULL) {
+            printf("Quadra de CEP %s não encontrada!\n", cep);
+            return;
+        }
+        
         endereco end = buscarEndereco(q, lado, numero);
 
         if (end == NULL){
@@ -64,7 +67,7 @@ static void processarLinha(char* linha, char* comando, hash habitantes, hash qua
             modificarEstatistica(e, getSexoPessoa(p) == 'M' ? 3 : 4, -1);
 
             free(p); 
-        } else printf("Habitante com CPF %s não encontrado.\n", cpf);
+        } else printf("Habitante com CPF %s não encontrado para virar morador!\n", cpf);
     }
 }
 

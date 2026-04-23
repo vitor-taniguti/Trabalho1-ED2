@@ -16,6 +16,11 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry){
 void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
     quadra q = buscarHash(quadras, cep);
 
+    if (q == NULL){
+        printf("Quadra não encontrada para ser removida!\n");
+        return;
+    }
+
     fprintf(txt, "Dados dos moradores que viraram sem-teto:\n\n");
 
     for (int i = 0; i < 4; i++){
@@ -52,6 +57,11 @@ void pq(char* cep, hash quadras, arquivo svg){
 
     quadra q = buscarHash(quadras, cep);
 
+    if (q == NULL){
+        printf("Quadra não encontrada para ser obter número de habitantes!\n");
+        return;
+    }
+
     for (int i = 0; i < 4; i++){
         face f = getFaceQuadra(q, i);
         int qtdEnd = getQuantidadeEnderecosFace(f);
@@ -85,7 +95,6 @@ void pq(char* cep, hash quadras, arquivo svg){
 }
 
 void censo(estatistica e, arquivo txt){
-
     int morHom = getInfoEstatistica(e, 1), morMul = getInfoEstatistica(e, 2);
     int semTetoHom = getInfoEstatistica(e, 3), semTetoMul = getInfoEstatistica(e, 4);
 
@@ -113,6 +122,11 @@ void censo(estatistica e, arquivo txt){
 
 void h(char* cpf, hash habitantes, arquivo txt){
     pessoa p = buscarHash(habitantes, cpf);
+
+    if (p == NULL){
+        printf("Habitante não encontrado para buscar dados!\n");
+        return;
+    }
 
     fprintf(txt, "Dados do habitante:\n\n");
     printarDadosPessoa(txt, p);
@@ -165,6 +179,11 @@ void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, a
 void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash habitantes, hash quadras, estatistica e, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
+    if (p == NULL){
+        printf("Pessoa não encontrada para se mudar!\n");
+        return;
+    }
+
     if (getMoradorPessoa(p) == 1){
         char* cepAntigo = getCepPessoa(p);
         quadra qAntiga = buscarHash(quadras, cepAntigo);
@@ -209,6 +228,17 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
 
 void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
+
+    if (p == NULL){
+        printf("Pessoa não encontrada para despejar!\n");
+        return;
+    }
+
+    if (getMoradorPessoa(p) == 0){
+        fprintf(txt, "Pessoa de CPF %s não é moradora para ser despejada!\n\n", cpf);
+        free(p);
+        return;
+    }
 
     modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 1 : 2), -1);
     modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), 1);
