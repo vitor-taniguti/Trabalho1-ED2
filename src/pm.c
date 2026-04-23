@@ -22,7 +22,7 @@ static void processarLinha(char* linha, char* comando, hash habitantes, hash qua
         pessoa p = criarPessoa(cpf, nome, sobrenome, sexo, nascimento);
         inserirHash(habitantes, p, cpf);
 
-        modificarEstatistica(e, 3, 1);
+        modificarEstatistica(e, sexo == 'M' ? 3 : 4, 1);
 
         free(p);
     } else if (strcmp(comando, "m") == 0){
