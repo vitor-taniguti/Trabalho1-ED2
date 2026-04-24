@@ -23,6 +23,8 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
 
     fprintf(txt, "Dados dos moradores que viraram sem-teto:\n\n");
 
+    int haMoradores = 0;
+
     for (int i = 0; i < 4; i++){
         face f = getFaceQuadra(q, i);
         int qtdEnd = getQuantidadeEnderecosFace(f);
@@ -30,6 +32,8 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
         for(int j = 0; j < qtdEnd; j++){
             endereco end = getEnderecoFace(f, j);
             int qtdMor = getQuantidadeMoradoresEndereco(end);
+
+            if (qtdMor != 0) haMoradores = 1;
 
             for (int k = 0; k < qtdMor; k++){
                 char* cpfMorador = getCpfEndereco(end, k);
@@ -43,6 +47,8 @@ void rq(char* cep, hash habitantes, hash quadras, arquivo txt, arquivo svg){
             }
         }
     }
+
+    if (!haMoradores) fprintf(txt, "Não há moradores para serem despejados dessa quadra!\n\n");
 
     inserirXSVG(svg, getXQuadra(q), getYQuadra(q), "red");
 
@@ -68,6 +74,12 @@ void pq(char* cep, hash quadras, arquivo svg){
 
         for (int j = 0; j < qtdEnd; j++){
             endereco end = getEnderecoFace(f, j);
+
+            if (end == NULL){
+                printf("Endereço não encontrado para pegar quantidade de moradores!\n");
+                return;
+            }
+
             int qtdMor = getQuantidadeMoradoresEndereco(end);
 
             faces[i] += qtdMor;
@@ -85,10 +97,10 @@ void pq(char* cep, hash quadras, arquivo svg){
     double w = getWQuadra(q);
     double h = getHQuadra(q);
 
-    inserirTextoSVG(svg, stringFaces[0], x+(w/2), y+h+5, 'm');
-    inserirTextoSVG(svg, stringFaces[1], x+(w/2), y-5, 'm');
-    inserirTextoSVG(svg, stringFaces[2], x, y+(h/2), 'f');
-    inserirTextoSVG(svg, stringFaces[3], x+w, y+(h/2), 'i');
+    inserirTextoSVG(svg, stringFaces[0], x+(w/2), y+h-5, 'm');
+    inserirTextoSVG(svg, stringFaces[1], x+(w/2), y+15, 'm');
+    inserirTextoSVG(svg, stringFaces[2], x+10, y+(h/2), 'f');
+    inserirTextoSVG(svg, stringFaces[3], x+w-10, y+(h/2), 'i');
     inserirTextoSVG(svg, stringTotal, x+(w/2), y+(h/2), 'm');
 
     free(q);
@@ -137,16 +149,20 @@ void h(char* cpf, hash habitantes, arquivo txt){
 }
 
 void nasc(char* cpf, char* nome, char* sobrenome, char sexo, char* nascimento, hash habitantes, estatistica e){
-    inserirHash(habitantes, criarPessoa(cpf, nome, sobrenome, sexo, nascimento), cpf);
+    pessoa p = criarPessoa(cpf, nome, sobrenome, sexo, nascimento);
+
+    inserirHash(habitantes, p, cpf);
     
     modificarEstatistica(e, (sexo == 'M' ? 3 : 4), 1);
+
+    free(p);
 }
 
 void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
     pessoa p = buscarHash(habitantes, cpf);
 
     if (p == NULL){
-        printf("Habitante não encontrado para falecer!\n");
+        fprintf(txt, "Habitante com CPF %s não encontrado para falecer!\n\n", cpf);
         return;
     }
 
@@ -165,10 +181,13 @@ void rip(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, a
         removerMoradorEndereco(cpf, end);
         atualizarHash(quadras, q, cepAntigo);
 
-        double x, y;
+        if (getMoradorPessoa(p) == 1){
+            double x, y;
+            getCoordenadasEndereco(q, getFacePessoa(p), getNumeroPessoa(p), &x, &y);
+            inserirCruzSVG(svg, x, y, "red");
+        }
 
-        getCoordenadasEndereco(q, getFacePessoa(p), getNumeroPessoa(p), &x, &y);
-        inserirCruzSVG(svg, x, y, "red");
+        free(q);
     } else modificarEstatistica(e, (getSexoPessoa(p) == 'M' ? 3 : 4), -1);
 
     removerHash(habitantes, cpf);
@@ -181,6 +200,18 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
 
     if (p == NULL){
         printf("Pessoa não encontrada para se mudar!\n");
+        return;
+    }
+
+    quadra qNova = buscarHash(quadras, cep);
+    endereco endNovo = buscarEndereco(qNova, lado, numero);
+
+    if (endNovo == NULL){
+        printf("Endereço %s/%c/%d/%s não encontrado para mudar pessoa!\n", cep, lado, numero, complemento);
+
+        free(qNova);
+        free(p);
+
         return;
     }
 
@@ -201,9 +232,6 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
 
         setMoradorPessoa(p, 1);
     }
-
-    quadra qNova = buscarHash(quadras, cep);
-    endereco endNovo = buscarEndereco(qNova, lado, numero);
 
     adicionarMoradorEndereco(cpf, endNovo);
     atualizarHash(quadras, qNova, cep);

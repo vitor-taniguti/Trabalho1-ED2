@@ -98,7 +98,7 @@ void imprimirDumpHash(hash h){
         }
     }
     
-    fprintf(ha->arquivoHfd, "\nFIM DUMP\n");
+    fprintf(ha->arquivoHfd, "\nFIM DUMP");
     fflush(ha->arquivoHfd);
 }
 

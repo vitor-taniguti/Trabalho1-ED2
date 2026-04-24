@@ -16,7 +16,7 @@ void printarLinhaComandoTxt(arquivo txt, char* linhaComando){
 void printarDadosPessoa(arquivo txt, pessoa p){
     fprintf(txt, "Nome completo - %s %s\n", getNomePessoa(p), getSobrenomePessoa(p));
     fprintf(txt, "CPF - %s\n", getCpfPessoa(p));
-    fprintf(txt, "Sexo - %c\n", getSexoPessoa(p));
+    fprintf(txt, "Sexo - %s\n", getSexoPessoa(p) == 'M' ? "Masculino" : "Feminino");
     fprintf(txt, "Data de nascimento - %s\n", getNascimentoPessoa(p));
 
     if (getMoradorPessoa(p) == 0) fprintf(txt, "Esse habitante não é morador\n\n");

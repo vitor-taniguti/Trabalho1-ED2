@@ -12,7 +12,7 @@ void abrirArquivoSvg(arquivo *saida, char *caminhoSaida){
 }
 
 void inicializarSVG(arquivo saida){
-    fprintf(saida, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    fprintf(saida, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2000\" height=\"2000\">\n");
 }
 
 void inserirRetanguloSVG(arquivo saida, double x, double y, double w, double h, char* corP, char* corB){

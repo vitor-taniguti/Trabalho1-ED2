@@ -1,0 +1,198 @@
+[*] rq b04.4
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Emmelieke_Camila Kabacchiisci_Mawradinoff
+CPF - 000.001.331-59
+Sexo - Feminino
+Data de nascimento - 16/11/1990
+Esse habitante não é morador
+
+[*] rq b04.5
+
+Dados dos moradores que viraram sem-teto:
+
+Não há moradores para serem despejados dessa quadra!
+
+[*] rq b04.6
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Artur_Hans Dabckov_Daalieff
+CPF - 000.003.721-45
+Sexo - Masculino
+Data de nascimento - 24/05/2016
+Esse habitante não é morador
+
+Nome completo - Hanneke_Taisa Kabacchijscka_Mawiewa
+CPF - 000.006.861-66
+Sexo - Feminino
+Data de nascimento - 06/01/2008
+Esse habitante não é morador
+
+[*] rq b04.7
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Larissa_Josefa Rossi_Messina
+CPF - 000.005.881-56
+Sexo - Feminino
+Data de nascimento - 27/01/1987
+Esse habitante não é morador
+
+Nome completo - Bianca_Joana Vaasilev_Rinaldi
+CPF - 000.003.041-40
+Sexo - Feminino
+Data de nascimento - 19/08/2000
+Esse habitante não é morador
+
+[*] rq b05.4
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Pedro_Rafael Mawieff_Arruda
+CPF - 000.002.641-72
+Sexo - Masculino
+Data de nascimento - 18/04/2013
+Esse habitante não é morador
+
+[*] rq b05.5
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Kas_Artur Dabckoff_Vitali
+CPF - 000.005.871-84
+Sexo - Masculino
+Data de nascimento - 18/06/2013
+Esse habitante não é morador
+
+[*] rq b05.6
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Miguel_Camiel Vaasilewa_Giordano
+CPF - 000.003.661-70
+Sexo - Masculino
+Data de nascimento - 11/01/1984
+Esse habitante não é morador
+
+Nome completo - Luiz_Felipe_Niek Goncalves_Mawradinov
+CPF - 000.001.201-70
+Sexo - Masculino
+Data de nascimento - 01/10/1990
+Esse habitante não é morador
+
+[*] rq b05.7
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Ana_Agueda Mawikova_Palmieri
+CPF - 000.001.401-04
+Sexo - Feminino
+Data de nascimento - 09/03/1999
+Esse habitante não é morador
+
+[*] rq b06.4
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Berta_Evelijn Palmieri_Bianco
+CPF - 000.006.771-75
+Sexo - Feminino
+Data de nascimento - 11/03/1997
+Esse habitante não é morador
+
+Nome completo - Miguel_Miguel Caruso_Mawlow
+CPF - 000.004.001-06
+Sexo - Masculino
+Data de nascimento - 26/02/1984
+Esse habitante não é morador
+
+Nome completo - Maas_Benjamim Vacavchieff_Abadzhiew
+CPF - 000.006.781-47
+Sexo - Masculino
+Data de nascimento - 26/11/1979
+Esse habitante não é morador
+
+[*] rq b06.5
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Paulo_Hajo Mawikow_Abadzhijska
+CPF - 000.002.661-16
+Sexo - Masculino
+Data de nascimento - 22/10/1979
+Esse habitante não é morador
+
+Nome completo - Evelijn_Fernanda Kabacchi_Ferri
+CPF - 000.005.161-63
+Sexo - Feminino
+Data de nascimento - 05/09/2025
+Esse habitante não é morador
+
+[*] rq b06.6
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Hanneke_Emmelieke Kabackchiev_Abadzhiiska
+CPF - 000.000.171-67
+Sexo - Feminino
+Data de nascimento - 13/03/2011
+Esse habitante não é morador
+
+Nome completo - Carlos_Eduardo_Flavio Fiore_Vaasileva
+CPF - 000.005.221-39
+Sexo - Masculino
+Data de nascimento - 14/08/2013
+Esse habitante não é morador
+
+Nome completo - Silena_Gabriela Sala_De_Rosa
+CPF - 000.005.761-40
+Sexo - Feminino
+Data de nascimento - 11/06/1970
+Esse habitante não é morador
+
+[*] rq b06.7
+
+Dados dos moradores que viraram sem-teto:
+
+Não há moradores para serem despejados dessa quadra!
+
+[*] rq b07.4
+
+Dados dos moradores que viraram sem-teto:
+
+Não há moradores para serem despejados dessa quadra!
+
+[*] rq b07.5
+
+Dados dos moradores que viraram sem-teto:
+
+Não há moradores para serem despejados dessa quadra!
+
+[*] rq b07.6
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Silena_Rita Mancini_Abadzhimarinov
+CPF - 000.002.261-65
+Sexo - Feminino
+Data de nascimento - 23/06/2001
+Esse habitante não é morador
+
+[*] rq b07.7
+
+Dados dos moradores que viraram sem-teto:
+
+Nome completo - Luuk_Larz Kabacchiiscka_Valentini
+CPF - 000.004.581-04
+Sexo - Masculino
+Data de nascimento - 03/11/1986
+Esse habitante não é morador
+
+Nome completo - Marina_Debora Abanasov_Cattaneo
+CPF - 000.005.211-67
+Sexo - Feminino
+Data de nascimento - 03/04/1987
+Esse habitante não é morador
+
