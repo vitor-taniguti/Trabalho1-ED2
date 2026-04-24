@@ -6,7 +6,7 @@
 #include "quadra.h"
 
 #define tamanho_bloco 2048
-#define maximo_diretorio 1024
+#define maximo_diretorio 4096
 #define offset_table 46
 #define offset_inicial_buckets 10000 
 
