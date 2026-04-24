@@ -203,18 +203,6 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
         return;
     }
 
-    quadra qNova = buscarHash(quadras, cep);
-    endereco endNovo = buscarEndereco(qNova, lado, numero);
-
-    if (endNovo == NULL){
-        printf("Endereço %s/%c/%d/%s não encontrado para mudar pessoa!\n", cep, lado, numero, complemento);
-
-        free(qNova);
-        free(p);
-
-        return;
-    }
-
     if (getMoradorPessoa(p) == 1){
         char* cepAntigo = getCepPessoa(p);
         quadra qAntiga = buscarHash(quadras, cepAntigo);
@@ -233,6 +221,18 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
         setMoradorPessoa(p, 1);
     }
 
+    quadra qNova = buscarHash(quadras, cep);
+    endereco endNovo = buscarEndereco(qNova, lado, numero);
+
+    if (endNovo == NULL){
+        face f = getFaceQuadra(qNova, converterFace(lado));
+        int qtdEndFaces = getQuantidadeEnderecosFace(f);
+        endNovo = getEnderecoFace(f, qtdEndFaces);
+        
+        setNumeroEndereco(endNovo, numero);
+        incrementarQuantidadeEnderecosFace(f);
+    }
+
     adicionarMoradorEndereco(cpf, endNovo);
     atualizarHash(quadras, qNova, cep);
 
@@ -248,10 +248,14 @@ void mud(char* cpf, char* cep, char lado, int numero, char* complemento, hash ha
 
     double x, y;
 
-    getCoordenadasEndereco(buscarHash(quadras, cep), lado, numero, &x, &y);
+    quadra q = buscarHash(quadras, cep);
+
+    getCoordenadasEndereco(q, lado, numero, &x, &y);
 
     inserirRetanguloSVG(svg, x, y, 5.0, 5.0, "red", "red");
     inserirTextoSVG(svg, cpf, x, y, 'm');
+
+    free(q);
 }
 
 void dspj(char* cpf, hash habitantes, hash quadras, estatistica e, arquivo txt, arquivo svg){
