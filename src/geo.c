@@ -12,7 +12,7 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     }
 }
 
-static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq, arquivo svg){
+static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra tq, arquivo svgGeo, arquivo svgQry){
     char espessura[10] = {0}, corP[20] = {0}, corB[20] = {0}, tipo[3] = {0}, cep[20] = {0};
     double x = 0, y = 0, w = 0, h = 0;
     
@@ -28,8 +28,11 @@ static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra 
         quadra q = criarQuadra(cep, x, y, w, h);
         inserirHash(quadras, q, cep);
 
-        inserirRetanguloSVG(svg, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
-        inserirTextoSVG(svg, cep, x+5, y+15, 'i');
+        inserirRetanguloSVG(svgGeo, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
+        inserirTextoSVG(svgGeo, cep, x+5, y+15, 'i');
+
+        inserirRetanguloSVG(svgQry, x, y, w, h, getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
+        inserirTextoSVG(svgQry, cep, x+5, y+15, 'i');
         
         free(q);
     } else {
@@ -37,7 +40,7 @@ static void processarLinha(char* linha, char* comando, hash quadras, tipoQuadra 
     }
 }
 
-void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq, arquivo svg){
+void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq, arquivo svgGeo, arquivo svgQry){
     if (geo == NULL){
         printf("O arquivo geo não foi aberto!\n");
         exit(1);
@@ -57,6 +60,6 @@ void lerArquivoGeo(arquivo geo, hash quadras, tipoQuadra tq, arquivo svg){
 
         comando[i] = '\0';
 
-        processarLinha(linha, comando, quadras, tq, svg);
+        processarLinha(linha, comando, quadras, tq, svgGeo, svgQry);
     }
 }

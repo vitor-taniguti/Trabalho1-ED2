@@ -26,7 +26,7 @@ void inserirCirculoSVG(arquivo saida, double x, double y, double raio, char* cor
 void inserirTextoSVG(arquivo saida, char* texto, double x, double y, char ancora){
     char *ancora_str;
 
-    switch (ancora) {
+    switch (ancora){
         case 'm':
             ancora_str = "middle";
             break;
@@ -52,6 +52,6 @@ void inserirCruzSVG(arquivo saida, double x, double y, char* cor){
     fprintf(saida, "\t<line x1=\"%.4f\" y1=\"%.4f\" x2=\"%.4f\" y2=\"%.4f\" stroke=\"%s\" stroke-width=\"2\" />\n", x - 6.0, y - 2.0, x + 6.0, y - 2.0, cor);
 }
 
-void fecharSVG(arquivo saida) {
+void fecharSVG(arquivo saida){
     fprintf(saida, "</svg>\n");
 }

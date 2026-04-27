@@ -55,12 +55,10 @@ void imprimirDumpHash(hash h){
     fprintf(ha->arquivoHfd, "\n*Dump table\n\n");
     int tamanhoDiretorio = 1 << ha->profundidadeGlobal;
     for (size_t i = 0; i < tamanhoDiretorio; i++){
-        fprintf(ha->arquivoHfd, "[%d] %ld\n", i, ha->diretorio[i]);
+        fprintf(ha->arquivoHfd, "[%ld] %ld\n", i, ha->diretorio[i]);
     }
 
     fprintf(ha->arquivoHfd, "\n*Dump buckets\n");
-    Bucket b;
-    int indiceBloco = 0;
 
     long offsets_impressos[tamanhoDiretorio];
     int num_impressos = 0;
@@ -87,9 +85,9 @@ void imprimirDumpHash(hash h){
 
             for (size_t j = 0; j < max_registros_por_bucket; j++){
                 if (j < b.quantidade){
-                    fprintf(ha->arquivoHfd, "1 | %d______%s |\n", j, b.registros[j].chave);
+                    fprintf(ha->arquivoHfd, "1 | %ld______%s |\n", j, b.registros[j].chave);
                 } else{
-                    fprintf(ha->arquivoHfd, "0 | %d______ |\n", j);
+                    fprintf(ha->arquivoHfd, "0 | %ld______ |\n", j);
                 }
             }
 
@@ -227,16 +225,10 @@ void inserirHash(hash h, elemento e, char* chave){
                 if (b.quantidade > max_registros_por_bucket){
                     fseek(ha->arquivoHf, offset_novo_balde, SEEK_SET);
                     fwrite(&novo_balde, sizeof(Bucket), 1, ha->arquivoHf);
-                    
-                    // O 'offset' de 'b' continua intacto. O loop vai girar e re-dividir ele.
                 } else{
-                    // O 'novo_balde' ficou lotado, e o 'b' ficou vazio com 0.
-                    // Salvamos o 'b' vazio no disco.
                     fseek(ha->arquivoHf, offset, SEEK_SET);
                     fwrite(&b, sizeof(Bucket), 1, ha->arquivoHf);
-                    
-                    // O balde problemático que precisa ser re-dividido agora é o novo.
-                    // Trocamos as variáveis para o laço funcionar com o novo balde na próxima rodada!
+
                     b = novo_balde;
                     offset = offset_novo_balde;
                 }
@@ -335,49 +327,4 @@ void liberarHash(hash h){
     }
 
     free(ha);
-}
-
-void percorrerHash(hash h, arquivo svgQry, FuncaoProcessamento processar, tipoQuadra tq){
-    if (h == NULL) return;
-    
-    Hash *ha = (Hash*) h;
-    int tamanhoDiretorio = 1 << ha->profundidadeGlobal;
-    Bucket b;
-    
-
-    long offsetsVisitados[10000]; 
-    int numVisitados = 0;
-
-    int totalQuadrasDesenhadas = 0;
-
-    for (size_t i = 0; i < tamanhoDiretorio; i++){
-        long offsetAtual = ha->diretorio[i];
-
-        int jaLido = 0;
-        for (int v = 0; v < numVisitados; v++){
-            if (offsetsVisitados[v] == offsetAtual){
-                jaLido = 1;
-                break;
-            }
-        }
-        if (jaLido) continue;
-
-        offsetsVisitados[numVisitados++] = offsetAtual;
-
-        fseek(ha->arquivoHf, offsetAtual, SEEK_SET);
-        fread(&b, sizeof(Bucket), 1, ha->arquivoHf);
-
-        for (size_t j = 0; j < b.quantidade; j++){
-            int tamanho = getTamanhoElemento(b.registros[j].chave);
-            elemento e = malloc(tamanho);
-            
-            fseek(ha->arquivoHf, b.registros[j].offsetDados, SEEK_SET);
-            fread(e, tamanho, 1, ha->arquivoHf);
-
-            processar(svgQry, getXQuadra(e), getYQuadra(e), getWQuadra(e), getHQuadra(e), getCorPTipoQuadra(tq), getCorBTipoQuadra(tq));
-            
-            totalQuadrasDesenhadas++;
-            free(e);
-        }
-    }
 }
